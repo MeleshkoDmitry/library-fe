@@ -1,0 +1,9 @@
+a {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+li {
+    display: block;
+    max-width: max-content;
+}
