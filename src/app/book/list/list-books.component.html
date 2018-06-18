@@ -1,0 +1,11 @@
+<app-books-search (foundBooks)="searchBooks($event)"></app-books-search>
+
+<button style='margin-left: 1%' routerLink="/books/addbook">Add new book</button>
+<ul>
+  <li *ngFor="let book of books">
+    <a (click)='viewBook(book._id)'> Title:{{book.title}}</a>
+    <a (click)='viewBook(book._id)'> Author:{{book.author}}</a>
+    <button (click)='deleteBook(book._id) '>Delete </button>
+    <button (click)='editBook(book._id) '>Edit </button>
+  </li>
+</ul>

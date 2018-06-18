@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookRouting } from './book-routing';
 
-import { PostABookComponent } from './post-a-book/post-a-book.component';
-import { ViewABookComponent } from './view-a-book/view-a-book.component';
-import { ListBooksComponent } from './list-books/list-books.component';
-import { BooksSearchComponent } from './list-books/books-search/books-search.component';
+import { ModifyComponent } from './modify/post-a-book.component';
+import { ViewABookComponent } from './view/view-a-book.component';
+import { ListBooksComponent } from './list/list-books.component';
+import { BooksSearchComponent } from './list/search/books-search.component';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { BooksSearchComponent } from './list-books/books-search/books-search.com
     FormsModule,
   ],
   declarations: [
-    PostABookComponent,
+    ModifyComponent,
     ViewABookComponent,
     ListBooksComponent,
     BooksSearchComponent
