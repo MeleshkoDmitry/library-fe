@@ -7,6 +7,7 @@ import { ModifyComponent } from './modify/post-a-book.component';
 import { ViewABookComponent } from './view/view-a-book.component';
 import { ListBooksComponent } from './list/list-books.component';
 import { BooksSearchComponent } from './list/search/books-search.component';
+import { PaginationComponent } from './list/pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { BooksSearchComponent } from './list/search/books-search.component';
     ViewABookComponent,
     ListBooksComponent,
     BooksSearchComponent,
+    PaginationComponent
   ],
   providers: []
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { BookService } from '../book.service';
 import { Book } from '../book';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ export class ListBooksComponent implements OnInit {
   books: Book;
   page: number;
   perPage: number;
+  totalPages: number;
   constructor(private bookService: BookService, private router: Router) { }
 
   ngOnInit() {
@@ -25,8 +26,10 @@ export class ListBooksComponent implements OnInit {
     this.bookService.viewListBooks(this.books, this.page.toString(), this.perPage.toString())
       .subscribe((result) => {
         this.books = result[0];
+        this.totalPages = result[1];
       });
   }
+
   viewBook(_id: string) {
     this.router.navigate([
       '/books/viewbook/', _id]);
@@ -47,12 +50,12 @@ export class ListBooksComponent implements OnInit {
     this.books = event;
   }
 
-  prefPage() {
-    --this.page;
+  pagesEvent(event) {
+    this.page = event;
     this.loadBooks();
   }
-  nextPage() {
-    ++this.page;
-    this.loadBooks();
+
+  listPerPage(event) {
+    this.perPage = event;
   }
 }
