@@ -7,3 +7,11 @@ li {
     display: block;
     max-width: max-content;
 }
+label {
+    display: block;
+    max-width: max-content;
+}
+
+.newBook {
+    margin-left: 2%;
+}

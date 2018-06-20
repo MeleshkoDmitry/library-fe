@@ -1,6 +1,16 @@
 <app-books-search (foundBooks)="searchBooks($event)"></app-books-search>
+<button class="newBook" routerLink="/books/addbook">Add new book</button>
+<form>
+<label>Page:
+<button [disabled]="page <= 1" (click)="prefPage()"><< </button>
+<input type="submit" name="page" [(ngModel)]="page">
+<button [disabled]="page >= books" (click)="nextPage()">>> </button>
+</label>
+<label>perPage:
+<input  (click)="loadBooks()"name="perPage" [(ngModel)]="perPage">
+</label>
+</form>
 
-<button style='margin-left: 1%' routerLink="/books/addbook">Add new book</button>
 <ul>
   <li *ngFor="let book of books">
     <a (click)='viewBook(book._id)'> Title:{{book.title}}</a>

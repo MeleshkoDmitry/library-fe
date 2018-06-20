@@ -12,6 +12,7 @@ export class ViewABookComponent {
   book: Book;
 
   constructor(private router: Router, private route: ActivatedRoute, ) {
+    console.log('init');
     this.book = this.route.snapshot.data.book;
   }
 

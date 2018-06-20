@@ -11,17 +11,20 @@ import { Router } from '@angular/router';
 
 export class ListBooksComponent implements OnInit {
   books: Book;
-
+  page: number;
+  perPage: number;
   constructor(private bookService: BookService, private router: Router) { }
 
   ngOnInit() {
+    this.page = 1;
+    this.perPage = 5;
     this.loadBooks();
   }
 
   loadBooks() {
-    this.bookService.viewListBooks(this.books)
+    this.bookService.viewListBooks(this.books, this.page.toString(), this.perPage.toString())
       .subscribe((result) => {
-        this.books = result;
+        this.books = result[0];
       });
   }
   viewBook(_id: string) {
@@ -42,5 +45,14 @@ export class ListBooksComponent implements OnInit {
 
   searchBooks(event) {
     this.books = event;
+  }
+
+  prefPage() {
+    --this.page;
+    this.loadBooks();
+  }
+  nextPage() {
+    ++this.page;
+    this.loadBooks();
   }
 }

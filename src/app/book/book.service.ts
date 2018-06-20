@@ -14,13 +14,18 @@ export class BookService {
     this.apiUrl = environment.apiUrl;
   }
 
-  viewListBooks(book?: Book): Observable<Book> {
+  viewListBooks(book?: Book, page?: string, perPage?: string): Observable<Book> {
     if (book == null) {
-      return this.http.get<Book>(`${this.apiUrl}/library/`);
+      const queryParams = new HttpParams()
+        .set('page', page)
+        .set('perPage', perPage);
+      return this.http.get<Book>(`${this.apiUrl}/library/?${queryParams}`);
     } else {
       const queryParams = new HttpParams()
         .set('title', book.title || '.')
-        .set('author', book.author || '.');
+        .set('author', book.author || '.')
+        .set('page', page)
+        .set('perPage', perPage);
 
       return this.http.get<Book>(`${this.apiUrl}/library/?${queryParams}`);
     }

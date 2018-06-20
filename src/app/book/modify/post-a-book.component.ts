@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Book } from '../book';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,18 +9,18 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./post-a-book.component.css']
 })
 
-export class ModifyComponent implements OnInit {
+export class ModifyComponent {
 
   book: Book;
   constructor(
     private bookService: BookService,
     private router: Router,
-    private route: ActivatedRoute) { this.book = new Book(); }
-
-  ngOnInit() {
+    private route: ActivatedRoute) {
     const _id = this.route.snapshot.paramMap.get('id');
     if (_id) {
       this.book = this.route.snapshot.data.book;
+    } else {
+      this.book = new Book();
     }
   }
 

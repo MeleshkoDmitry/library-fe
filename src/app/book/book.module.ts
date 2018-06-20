@@ -18,7 +18,7 @@ import { BooksSearchComponent } from './list/search/books-search.component';
     ModifyComponent,
     ViewABookComponent,
     ListBooksComponent,
-    BooksSearchComponent
+    BooksSearchComponent,
   ],
   providers: []
 })

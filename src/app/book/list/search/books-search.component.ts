@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
 
 export class BooksSearchComponent implements OnInit {
   book: Book;
+  page: string;
 
-  @Output()
-  foundBooks: EventEmitter<any> = new EventEmitter();
+  @Output() foundBooks: EventEmitter<any> = new EventEmitter();
 
   constructor(private bookService: BookService, private router: Router) { this.book = new Book(); }
 
@@ -21,7 +21,7 @@ export class BooksSearchComponent implements OnInit {
   }
 
   search() {
-    this.bookService.viewListBooks(this.book)
+    this.bookService.viewListBooks(this.book, this.page)
       .subscribe((result) => {
         this.foundBooks.emit(result);
       });
