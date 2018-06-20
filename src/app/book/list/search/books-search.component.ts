@@ -9,16 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./books-search.component.css']
 })
 
-export class BooksSearchComponent implements OnInit {
+export class BooksSearchComponent {
   book: Book;
   @Input() private perPage: any;
   @Input() private page: any;
   @Output() foundBooks: EventEmitter<any> = new EventEmitter();
 
   constructor(private bookService: BookService, private router: Router) { this.book = new Book(); }
-
-  ngOnInit() {
-  }
 
   search() {
     this.bookService.viewListBooks(this.book, this.page, this.perPage)

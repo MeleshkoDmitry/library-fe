@@ -1,7 +1,8 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { BookService } from '../book.service';
 import { Book } from '../book';
 import { Router } from '@angular/router';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @Component({
   selector: 'app-list-books',
@@ -14,6 +15,10 @@ export class ListBooksComponent implements OnInit {
   page: number;
   perPage: number;
   totalPages: number;
+
+  @ViewChild(PaginationComponent)
+  pagination: PaginationComponent;
+
   constructor(private bookService: BookService, private router: Router) { }
 
   ngOnInit() {
@@ -47,6 +52,7 @@ export class ListBooksComponent implements OnInit {
   }
 
   searchBooks(event) {
+    this.pagination.resetPage();
     this.books = event;
   }
 

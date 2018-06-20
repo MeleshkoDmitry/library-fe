@@ -1,7 +1,7 @@
 <app-books-search [page]="page" [perPage]="perPage" (foundBooks)="searchBooks($event)"></app-books-search>
 <button class="newBook" routerLink="/books/addbook">Add new book</button>
 
-<app-pagination [totalPages]="totalPages" (changePerPage)="listPerPage($event)" (changePage)="pagesEvent($event)"></app-pagination>
+<app-pagination [totalPages]="totalPages" [perPage]="perPage" (changePerPage)="listPerPage($event)" (changePage)="pagesEvent($event)"></app-pagination>
 
 <ul>
   <li *ngFor="let book of books">
