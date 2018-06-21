@@ -7,7 +7,7 @@ import { isNumber } from 'util';
   styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent implements OnChanges {
-  private totalPages: number;
+  totalPages: number;
 
   @Input() page: number;
   @Input() pageSize: number;
@@ -18,6 +18,7 @@ export class PaginationComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.page);
     if (changes.totalRecords) {
       this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
     }
@@ -32,10 +33,12 @@ export class PaginationComponent implements OnChanges {
   }
 
   next(): void {
-    this.pageEvent.emit({ page: this.page++, pageSize: this.pageSize });
+    this.page++;
+    this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
   prev(): void {
+    this.page--;
     this.pageEvent.emit({ page: this.page--, pageSize: this.pageSize });
   }
 

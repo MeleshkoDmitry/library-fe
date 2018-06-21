@@ -9,8 +9,8 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 export class BooksSearchComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter();
 
-  private title: string;
-  private author: string;
+  title: string;
+  author: string;
 
   constructor() { }
 
