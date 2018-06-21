@@ -3,6 +3,7 @@ import { BookService } from '../book.service';
 import { Book } from '../book';
 import { Router } from '@angular/router';
 import { PaginationComponent } from './pagination/pagination.component';
+import { BookFilter } from '../book.filter';
 
 @Component({
   selector: 'app-list-books',
@@ -12,26 +13,23 @@ import { PaginationComponent } from './pagination/pagination.component';
 
 export class ListBooksComponent implements OnInit {
   books: Book;
-  page: number;
-  perPage: number;
-  totalPages: number;
+  bookFilter: BookFilter;
 
-  @ViewChild(PaginationComponent)
-  pagination: PaginationComponent;
-
-  constructor(private bookService: BookService, private router: Router) { }
+  constructor(private bookService: BookService, private router: Router) {
+    this.bookFilter = new BookFilter();
+    this.bookFilter.page = 1;
+    this.bookFilter.pageSize = 5;
+  }
 
   ngOnInit() {
-    this.page = 1;
-    this.perPage = 5;
     this.loadBooks();
   }
 
   loadBooks() {
-    this.bookService.viewListBooks(this.books, this.page.toString(), this.perPage.toString())
+    this.bookService.viewListBooks(this.bookFilter)
       .subscribe((result) => {
         this.books = result[0];
-        this.totalPages = result[1];
+        this.bookFilter.totalPages = result[1];
       });
   }
 
@@ -52,16 +50,18 @@ export class ListBooksComponent implements OnInit {
   }
 
   searchBooks(event) {
-    this.pagination.resetPage();
     this.books = event;
   }
 
-  pagesEvent(event) {
-    this.page = event;
+  pageChange(event: BookFilter) {
+    this.bookFilter.page = event.page;
+    this.bookFilter.pageSize = event.pageSize;
     this.loadBooks();
   }
 
-  listPerPage(event) {
-    this.perPage = event;
+  onSearch({ author, title }) {
+    this.bookFilter.author = author;
+    this.bookFilter.title = title;
+    this.loadBooks();
   }
 }

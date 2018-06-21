@@ -1,9 +1,9 @@
 <form id="searchForm">
   <label>Title:
-    <input name="title" [(ngModel)]="book.title">
+    <input name="title" [(ngModel)]="title">
   </label>
   <label>Author:
-    <input name="author" [(ngModel)]="book.author">
+    <input name="author" [(ngModel)]="author">
   </label>
-  <button (click)="search(book)" type="submit">Search</button>
+  <button (click)="search()" type="submit">Search</button>
 </form>

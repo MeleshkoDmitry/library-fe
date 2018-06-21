@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Book } from '../../book';
 import { BookService } from '../../book.service';
 import { Router } from '@angular/router';
+import { BookFilter } from '../../book.filter';
 
 @Component({
   selector: 'app-books-search',
@@ -10,17 +11,18 @@ import { Router } from '@angular/router';
 })
 
 export class BooksSearchComponent {
-  book: Book;
-  @Input() private perPage: any;
-  @Input() private page: any;
-  @Output() foundBooks: EventEmitter<any> = new EventEmitter();
 
-  constructor(private bookService: BookService, private router: Router) { this.book = new Book(); }
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onSearch: EventEmitter<any> = new EventEmitter();
+
+  private title: string;
+  private author: string;
+  private bookFilter: BookFilter;
+
+
+  constructor() { }
 
   search() {
-    this.bookService.viewListBooks(this.book, this.page, this.perPage)
-      .subscribe((result) => {
-        this.foundBooks.emit(result[0]);
-      });
+    this.onSearch.emit({ title: this.title, author: this.author });
   }
 }

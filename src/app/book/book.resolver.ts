@@ -6,14 +6,11 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 
-export class ViewResolver implements Resolve<Book> {
+export class BookResolver implements Resolve<Book> {
 
     constructor(private bookService: BookService) { }
 
-    resolve(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ): Observable<Book> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Book> {
         return this.bookService.viewBook(route.params.id);
     }
 

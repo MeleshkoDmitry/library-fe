@@ -7,7 +7,6 @@ import { BookModule } from './book/book.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AppRouting } from './app-routing';
-import { Book } from './book/book';
 import { CustomErrorHandler } from './error.handler';
 
 @NgModule({
@@ -24,7 +23,7 @@ import { CustomErrorHandler } from './error.handler';
   exports: [
     RouterModule
   ],
-  providers: [Book, { provide: ErrorHandler, useClass: CustomErrorHandler }],
+  providers: [{ provide: ErrorHandler, useClass: CustomErrorHandler }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

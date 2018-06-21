@@ -1,44 +1,42 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { BookFilter } from '../../book.filter';
+import { isNumber } from 'util';
+import { BookService } from '../../book.service';
+import { Book } from '../../book';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements OnChanges {
-  private page = 1;
-  @Input() private totalPages: number;
-  @Input() private perPage: number;
+export class PaginationComponent {
+  book: Book;
+  @Input() private bookFilter: BookFilter;
 
-  @Output() changePage: EventEmitter<number> = new EventEmitter<number>();
-  @Output() changePerPage: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pageChange: EventEmitter<BookFilter> = new EventEmitter<BookFilter>();
 
-  constructor() { }
+  constructor(private bookService: BookService) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.perPage) {
-      if (changes.perPage.currentValue !== changes.perPage.previousValue) {
-        this.resetPage();
-      }
-    }
+  next(): void {
+    this.bookFilter.page = this.bookFilter.page + 1;
+    this.pageChange.emit(this.bookFilter);
   }
 
-  resetPage() {
-    this.page = 1;
+  prev(): void {
+    this.bookFilter.page = this.bookFilter.page - 1;
+    this.pageChange.emit(this.bookFilter);
   }
 
-  editPerPage() {
-    this.changePerPage.emit(this.perPage);
+  changeValue(event): void {
+    isNumber(+event.target.value) ? this.bookFilter.pageSize = +event.target.value : this.bookFilter.pageSize = 5;
+    this.bookFilter.page = 1;
+    this.pageChange.emit(this.bookFilter);
   }
 
-  next() {
-    this.editPerPage();
-    this.changePage.emit(this.page++);
-  }
-
-  prev() {
-    this.editPerPage();
-    this.changePage.emit(this.page--);
+  loadBooks() {
+    this.bookService.viewListBooks(this.bookFilter).subscribe((result) => {
+      this.book = result[0];
+    });
   }
 
 }
