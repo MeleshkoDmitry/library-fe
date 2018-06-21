@@ -1,8 +1,7 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BookService } from '../book.service';
 import { Book } from '../book';
 import { Router } from '@angular/router';
-import { PaginationComponent } from './pagination/pagination.component';
 import { BookFilter } from '../book.filter';
 
 @Component({

@@ -1,8 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { Book } from '../../book';
-import { BookService } from '../../book.service';
-import { Router } from '@angular/router';
-import { BookFilter } from '../../book.filter';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-books-search',
@@ -17,8 +13,6 @@ export class BooksSearchComponent {
 
   private title: string;
   private author: string;
-  private bookFilter: BookFilter;
-
 
   constructor() { }
 
