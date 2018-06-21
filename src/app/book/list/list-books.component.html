@@ -1,7 +1,11 @@
-<app-books-search (onSearch)="onSearch($event)"></app-books-search>
+<app-books-search (searchEvent)="onSearch($event)"></app-books-search>
 <button class="newBook" routerLink="/books/addbook">Add new book</button>
-
-<app-pagination [bookFilter]="bookFilter" (pageChange)="pageChange($event)"></app-pagination>
+<app-pagination 
+  [page]="page" 
+  [pageSize]="pageSize" 
+  [totalRecords]="totalRecords" 
+  (pageEvent)="pageChange($event)">
+</app-pagination>
 <ul>
   <li *ngFor="let book of books">
     <a (click)='viewBook(book._id)'> Title:{{book.title}}</a>

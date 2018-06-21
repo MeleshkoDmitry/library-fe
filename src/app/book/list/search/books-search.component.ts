@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-books-search',
@@ -7,9 +7,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 
 export class BooksSearchComponent {
-
-  // tslint:disable-next-line:no-output-on-prefix
-  @Output() onSearch: EventEmitter<any> = new EventEmitter();
+  @Output() searchEvent: EventEmitter<any> = new EventEmitter();
 
   private title: string;
   private author: string;
@@ -17,6 +15,7 @@ export class BooksSearchComponent {
   constructor() { }
 
   search() {
-    this.onSearch.emit({ title: this.title, author: this.author });
+    this.searchEvent.emit({ title: this.title, author: this.author });
   }
+
 }

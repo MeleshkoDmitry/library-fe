@@ -1,8 +1,0 @@
-<div id="pagination">
-  <button [disabled]="bookFilter.page === 1" (click)="prev()"> Previous </button>
-  <label>{{bookFilter.page}} of {{bookFilter.totalPages}}</label>
-  <button [disabled]="bookFilter.page === bookFilter.totalPages" (click)="next()">Next </button>
-  <label>View per page:
-    <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="bookFilter.pageSize" (input)="changeValue($event)">
-  </label>
-</div>

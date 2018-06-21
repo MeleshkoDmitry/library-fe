@@ -18,7 +18,7 @@ import { CustomErrorHandler } from './error.handler';
     FormsModule,
     HttpClientModule,
     BookModule,
-    AppRouting
+    AppRouting,
   ],
   exports: [
     RouterModule

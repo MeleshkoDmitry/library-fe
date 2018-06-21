@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Book } from './book';
+import { Book, BookFilter } from './book';
 import { environment } from '../../environments/environment';
-import { BookFilter } from './book.filter';
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +14,14 @@ export class BookService {
     this.apiUrl = environment.apiUrl;
   }
 
-  viewListBooks(bookFilter: BookFilter): Observable<Book> {
-    if (!(bookFilter.title || bookFilter.author)) {
-      const queryParams = new HttpParams()
-        .set('page', bookFilter.page.toString())
-        .set('pageSize', bookFilter.pageSize.toString())
-        .set('sort', bookFilter.sort);
-      return this.http.get<Book>(`${this.apiUrl}/library/?${queryParams}`);
-    } else {
-      const queryParams = new HttpParams()
-        .set('title', bookFilter.title || '.')
-        .set('author', bookFilter.author || '.')
-        .set('page', bookFilter.page.toString())
-        .set('pageSize', bookFilter.pageSize.toString())
-        .set('sort', bookFilter.sort);
-
-      return this.http.get<Book>(`${this.apiUrl}/library/?${queryParams}`);
-    }
+  viewListBooks(bookFilter: BookFilter): Observable<any> {
+    const queryParams = new HttpParams()
+      .set('title', bookFilter.title || '.')
+      .set('author', bookFilter.author || '.')
+      .set('page', bookFilter.page.toString())
+      .set('pageSize', bookFilter.pageSize.toString())
+      .set('sort', bookFilter.sort);
+    return this.http.get<any>(`${this.apiUrl}/library/?${queryParams}`);
   }
 
   viewBook(_id: string): Observable<Book> {
