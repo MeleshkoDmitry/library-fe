@@ -4,4 +4,5 @@ export class BookFilter {
     page: number;
     pageSize: number;
     totalPages: number;
+    sort: string;
 }

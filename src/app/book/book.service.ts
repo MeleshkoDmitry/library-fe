@@ -19,14 +19,16 @@ export class BookService {
     if (!(bookFilter.title || bookFilter.author)) {
       const queryParams = new HttpParams()
         .set('page', bookFilter.page.toString())
-        .set('pageSize', bookFilter.pageSize.toString());
+        .set('pageSize', bookFilter.pageSize.toString())
+        .set('sort', bookFilter.sort);
       return this.http.get<Book>(`${this.apiUrl}/library/?${queryParams}`);
     } else {
       const queryParams = new HttpParams()
         .set('title', bookFilter.title || '.')
         .set('author', bookFilter.author || '.')
         .set('page', bookFilter.page.toString())
-        .set('pageSize', bookFilter.pageSize.toString());
+        .set('pageSize', bookFilter.pageSize.toString())
+        .set('sort', bookFilter.sort);
 
       return this.http.get<Book>(`${this.apiUrl}/library/?${queryParams}`);
     }

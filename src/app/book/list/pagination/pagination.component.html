@@ -3,6 +3,6 @@
   <label>{{bookFilter.page}} of {{bookFilter.totalPages}}</label>
   <button [disabled]="bookFilter.page === bookFilter.totalPages" (click)="next()">Next </button>
   <label>View per page:
-    <input name="pageSize" [(ngModel)]="bookFilter.pageSize" (input)="changeValue($event)">
+    <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="bookFilter.pageSize" (input)="changeValue($event)">
   </label>
 </div>

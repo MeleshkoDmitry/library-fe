@@ -19,6 +19,7 @@ export class ListBooksComponent implements OnInit {
     this.bookFilter = new BookFilter();
     this.bookFilter.page = 1;
     this.bookFilter.pageSize = 5;
+    this.bookFilter.sort = '-1';
   }
 
   ngOnInit() {
