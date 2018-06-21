@@ -12,18 +12,12 @@ import { Book, BookFilter } from '../book';
 export class ListBooksComponent implements OnInit {
   books: Book;
   bookFilter: BookFilter;
-
-  page: number;
-  pageSize: number;
   totalRecords: number;
 
   constructor(private bookService: BookService, private router: Router) {
-    this.page = 1;
-    this.pageSize = 5;
-
     this.bookFilter = new BookFilter();
-    this.bookFilter.page = this.page;
-    this.bookFilter.pageSize = this.pageSize;
+    this.bookFilter.page = 1;
+    this.bookFilter.pageSize = 5;
     this.bookFilter.sort = '-1';
   }
 
@@ -66,6 +60,7 @@ export class ListBooksComponent implements OnInit {
   }
 
   onSearch({ author, title }): void {
+    this.bookFilter.page = 1;
     this.bookFilter.author = author;
     this.bookFilter.title = title;
     this.loadBooks();

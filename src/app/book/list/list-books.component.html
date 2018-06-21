@@ -1,8 +1,8 @@
 <app-books-search (searchEvent)="onSearch($event)"></app-books-search>
 <button class="newBook" routerLink="/books/addbook">Add new book</button>
 <app-pagination 
-  [page]="page" 
-  [pageSize]="pageSize" 
+  [page]="bookFilter.page" 
+  [pageSize]="bookFilter.pageSize" 
   [totalRecords]="totalRecords" 
   (pageEvent)="pageChange($event)">
 </app-pagination>
