@@ -3,6 +3,6 @@
   <label>{{page}} of {{totalPages}} </label>
   <button [disabled]="page === totalPages" (click)="next()">Next </button>
   <label>View per page:
-    <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="pageSize" (input)="changeValue($event)">
+    <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="pageSize" (input)="changeValue()">
   </label>
 </div>

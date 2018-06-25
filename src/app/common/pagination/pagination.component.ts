@@ -13,6 +13,7 @@ import { AppState } from '../reducers/pagination';
 export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
   totalPages: number;
   currentPageSub: any;
+
   @Input() page: number;
   @Input() pageSize: number;
   @Input() totalRecords: number;
@@ -30,6 +31,7 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
   ngOnInit() {
     this.subscribe();
   }
+
   numberOnly(event): boolean {
     return !isNaN(+event.key);
   }
@@ -50,6 +52,10 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
     this.createTotalPages();
   }
 
+  createTotalPages() {
+    this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+  }
+
   subscribe() {
     this.currentPageSub = this.store.subscribe((result) => {
       this.page = result.pagination.currentState;
@@ -57,9 +63,6 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
     });
   }
 
-  createTotalPages() {
-    this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
-  }
   unsubscribe() {
     this.currentPageSub.unsubscribe();
   }

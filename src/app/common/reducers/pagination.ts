@@ -1,8 +1,10 @@
 import { Action } from '@ngrx/store';
+
 export interface CustomAction extends Action {
     type: string;
     pageSize?: number;
 }
+
 export interface AppState {
     pagination: any;
 }

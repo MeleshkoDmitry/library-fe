@@ -10,7 +10,7 @@ import { Book, BookFilter } from '../book';
 })
 
 export class ListBooksComponent implements OnInit {
-  books: Book;
+  books: Book[];
   bookFilter: BookFilter;
   totalRecords: number;
 
