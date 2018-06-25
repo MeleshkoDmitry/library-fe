@@ -1,51 +1,70 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { isNumber } from 'util';
+import { OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers/pagination';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.css']
+  styleUrls: ['./pagination.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaginationComponent implements OnChanges {
-  totalPages: number;
 
+export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
+  totalPages: number;
+  currentPageSub: any;
   @Input() page: number;
   @Input() pageSize: number;
   @Input() totalRecords: number;
 
   @Output() pageEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.page);
-    if (changes.totalRecords) {
-      this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+    if (changes.totalRecords && !changes.totalRecords.firstChange) {
+      this.createTotalPages();
     }
   }
 
+  ngOnInit() {
+    this.subscribe();
+  }
   numberOnly(event): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
+    return !isNaN(+event.key);
   }
 
   next(): void {
-    this.page++;
+    this.store.dispatch({ type: 'INCREMENT' });
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
   prev(): void {
-    this.page--;
-    this.pageEvent.emit({ page: this.page--, pageSize: this.pageSize });
+    this.store.dispatch({ type: 'DECREMENT' });
+    this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
-  changeValue(event): void {
-    isNumber(+event.target.value) ? this.pageSize = +event.target.value : this.pageSize = 5;
-    this.page = 1;
+  changeValue(): void {
+    this.store.dispatch({ type: 'PAGE_SIZE', pageSize: +this.pageSize });
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
+    this.createTotalPages();
+  }
+
+  subscribe() {
+    this.currentPageSub = this.store.subscribe((result) => {
+      this.page = result.pagination.currentState;
+      this.page > this.totalPages ? this.page = 1 : this.page = this.page;
+    });
+  }
+
+  createTotalPages() {
     this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+  }
+  unsubscribe() {
+    this.currentPageSub.unsubscribe();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 }
