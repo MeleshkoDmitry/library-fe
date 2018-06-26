@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BookService } from '../book.service';
 import { Router } from '@angular/router';
 import { Book, BookFilter } from '../book';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-list-books',
@@ -9,12 +10,13 @@ import { Book, BookFilter } from '../book';
   styleUrls: ['./list-books.component.css']
 })
 
-export class ListBooksComponent implements OnInit {
+export class ListBooksComponent implements OnInit, OnDestroy {
   books: Book[];
   bookFilter: BookFilter;
+  bookState: any;
   totalRecords: number;
 
-  constructor(private bookService: BookService, private router: Router) {
+  constructor(private bookService: BookService, private router: Router, private store: Store<any>) {
     this.bookFilter = new BookFilter();
     this.bookFilter.page = 1;
     this.bookFilter.pageSize = 5;
@@ -28,14 +30,19 @@ export class ListBooksComponent implements OnInit {
   loadBooks(): void {
     this.bookService.viewListBooks(this.bookFilter)
       .subscribe((result) => {
-        this.books = result.books;
-        this.totalRecords = result.totalRecords;
+        this.store.dispatch({ type: 'VIEW_LIST_BOOKS', listBooks: result });
       });
+    this.bookState = this.store.subscribe((result) => {
+      this.books = result.listBooks.books;
+      this.totalRecords = result.listBooks.totalRecords;
+    });
   }
 
   viewBook(_id: string): void {
-    this.router.navigate([
-      '/books/viewbook/', _id]);
+    this.bookService.viewBook(_id).subscribe((result) => {
+      this.store.dispatch({ type: 'VIEW_BOOK', book: result });
+      this.router.navigate(['/books/viewbook/', _id]);
+    });
   }
 
   deleteBook(_id: string): void {
@@ -46,11 +53,10 @@ export class ListBooksComponent implements OnInit {
   }
 
   editBook(_id: string): void {
-    this.router.navigate(['/books/editbook/', _id]);
-  }
-
-  searchBooks(event): void {
-    this.books = event;
+    this.bookService.viewBook(_id).subscribe((result) => {
+      this.store.dispatch({ type: 'EDIT_BOOK', book: result });
+      this.router.navigate(['/books/editbook/', _id]);
+    });
   }
 
   pageChange(event: any) {
@@ -59,10 +65,21 @@ export class ListBooksComponent implements OnInit {
     this.loadBooks();
   }
 
-  onSearch({ author, title }): void {
-    this.bookFilter.page = 1;
-    this.bookFilter.author = author;
-    this.bookFilter.title = title;
-    this.loadBooks();
+  onSearch(): void {
+    this.bookState = this.store.subscribe((result) => {
+      result.pagination.currentState = 1;
+      this.bookFilter.title = result.searchBooks.title;
+      this.bookFilter.author = result.searchBooks.author;
+      this.loadBooks();
+    });
+    this.unsubscribe();
+  }
+
+  unsubscribe() {
+    this.bookState.unsubscribe();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 }

@@ -9,13 +9,22 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AppRouting } from './app-routing';
 import { CustomErrorHandler } from './error.handler';
+import { ModifyBookReducer, ViewListBooks, SearchBooks } from './common/reducers/modify.book';
+import { EffectsModule } from '@ngrx/effects';
+import { ModifyEffects } from './common/effects/modify.books';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    StoreModule.forRoot({ pagination: pageReducer }),
+    // EffectsModule.forRoot([ModifyEffects]),
+    StoreModule.forRoot({
+      pagination: pageReducer,
+      book: ModifyBookReducer,
+      listBooks: ViewListBooks,
+      searchBooks: SearchBooks
+    }),
     BrowserModule,
     FormsModule,
     HttpClientModule,

@@ -11,8 +11,8 @@ const bookRoutes: Routes = [
     children: [
       { path: '', component: ListBooksComponent },
       { path: 'addbook', component: ModifyComponent },
-      { path: 'viewbook/:id', component: ViewABookComponent, resolve: { book: BookResolver } },
-      { path: 'editbook/:id', component: ModifyComponent, resolve: { book: BookResolver } }
+      { path: 'viewbook/:id', component: ViewABookComponent }, // resolve: { book: BookResolver }
+      { path: 'editbook/:id', component: ModifyComponent } // resolve: { book: BookResolver }
     ]
   },
 ];

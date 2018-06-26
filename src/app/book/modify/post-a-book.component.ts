@@ -1,27 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Book } from '../book';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-post-a-book',
   templateUrl: './post-a-book.component.html',
-  styleUrls: ['./post-a-book.component.css']
+  styleUrls: ['./post-a-book.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ModifyComponent {
+export class ModifyComponent implements OnDestroy {
 
   book: Book;
+  bookState: any;
+
   constructor(
     private bookService: BookService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private store: Store<any>) {
     const _id = this.route.snapshot.paramMap.get('id');
-    if (_id) {
-      this.book = this.route.snapshot.data.book;
-    } else {
+
+    _id ? this.bookState = this.store.subscribe((result) => {
+      this.book = result.book;
+    }) : this.bookState = this.store.subscribe(() => {
       this.book = new Book();
-    }
+    });
   }
 
   onSubmit(): void {
@@ -30,17 +36,23 @@ export class ModifyComponent {
 
   save(): void {
     let action;
-    if (this.book._id) {
-      action = this.bookService.editBook(this.book._id, this.book);
-    } else {
-      action = this.bookService.addBook(this.book);
-    }
+    this.book._id ? action = this.bookService.editBook(this.book._id, this.book)
+      : action = this.bookService.addBook(this.book);
+
     action.subscribe((result) => {
+      this.store.dispatch({ type: 'VIEW_BOOK', book: result });
       this.router.navigate(['/books/viewbook/', result._id]);
     });
   }
 
   viewAllBooks() {
     this.router.navigate(['/books']);
+  }
+
+  unsubscribe() {
+    this.bookState.unsubscribe();
+  }
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 }
