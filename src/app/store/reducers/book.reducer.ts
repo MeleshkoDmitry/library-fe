@@ -3,8 +3,8 @@ import { Book } from '../../book/book';
 
 export interface CustomAction extends Action {
     type: string;
+    payload: any;
     book: any;
-    listBooks: any;
     searchBooks: any;
 }
 
@@ -19,21 +19,27 @@ const initState: Book = {
     author: null
 };
 
-export function ModifyBookReducer(state = initState, action: CustomAction) {
+export function LoadBooks(state = [], action: CustomAction) {
     switch (action.type) {
-        case 'VIEW_BOOK':
-            return state = action.book;
-        case 'EDIT_BOOK':
-            return state = action.book;
+        case 'VIEW_LIST_BOOKS_SUCCESS':
+            return state = action.payload;
+        case 'VIEW_LIST_BOOKS_FAILED':
+            return state;
         default:
             return state;
     }
 }
 
-export function ViewListBooks(state = [], action: CustomAction) {
+export function ModifyBook(state = initState, action: CustomAction) {
     switch (action.type) {
-        case 'VIEW_LIST_BOOKS':
-            return state = action.listBooks;
+        case 'VIEW_BOOK_SUCCESS':
+            return state = action.payload;
+        case 'VIEW_BOOK_FAILED':
+            return state;
+        case 'EDIT_BOOK_SUCCESS':
+            return state = action.payload;
+        case 'EDIT_BOOK_FAILED':
+            return state;
         default:
             return state;
     }

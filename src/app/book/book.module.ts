@@ -8,9 +8,11 @@ import { ViewABookComponent } from './view/view-a-book.component';
 import { ListBooksComponent } from './list/list-books.component';
 import { BooksSearchComponent } from './list/search/books-search.component';
 import { PaginationComponent } from '../common/pagination/pagination.component';
+import { BookContainer } from './book.container';
 
 @NgModule({
   declarations: [
+    BookContainer,
     ModifyComponent,
     ViewABookComponent,
     ListBooksComponent,

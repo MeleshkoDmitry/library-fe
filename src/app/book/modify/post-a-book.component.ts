@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ModifyComponent implements OnDestroy {
+export class ModifyComponent {
 
   book: Book;
   bookState: any;
@@ -23,11 +23,9 @@ export class ModifyComponent implements OnDestroy {
     private store: Store<any>) {
     const _id = this.route.snapshot.paramMap.get('id');
 
-    _id ? this.bookState = this.store.subscribe((result) => {
-      this.book = result.book;
-    }) : this.bookState = this.store.subscribe(() => {
-      this.book = new Book();
-    });
+    _id ? this.store.select('book').subscribe((result) => {
+      this.book = result;
+    }) : this.book = new Book();
   }
 
   onSubmit(): void {
@@ -47,12 +45,5 @@ export class ModifyComponent implements OnDestroy {
 
   viewAllBooks() {
     this.router.navigate(['/books']);
-  }
-
-  unsubscribe() {
-    this.bookState.unsubscribe();
-  }
-  ngOnDestroy() {
-    this.unsubscribe();
   }
 }

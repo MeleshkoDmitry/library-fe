@@ -1,7 +1,7 @@
 import { OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Component, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../reducers/pagination';
+import { AppState } from '../../store/reducers/pagination.reducer';
 
 @Component({
   selector: 'app-pagination',
@@ -30,6 +30,7 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
 
   ngOnInit() {
     this.subscribe();
+    this.createTotalPages();
   }
 
   numberOnly(event): boolean {

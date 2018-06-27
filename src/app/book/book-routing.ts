@@ -4,14 +4,15 @@ import { ViewABookComponent } from './view/view-a-book.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BookResolver } from './book.resolver';
+import { BookContainer } from './book.container';
 
 const bookRoutes: Routes = [
   {
     path: 'books',
     children: [
-      { path: '', component: ListBooksComponent },
+      { path: '', component: BookContainer },
       { path: 'addbook', component: ModifyComponent },
-      { path: 'viewbook/:id', component: ViewABookComponent }, // resolve: { book: BookResolver }
+      { path: 'viewbook/:id', component: ViewABookComponent, resolve: { book: BookResolver } }, // resolve: { book: BookResolver }
       { path: 'editbook/:id', component: ModifyComponent } // resolve: { book: BookResolver }
     ]
   },
