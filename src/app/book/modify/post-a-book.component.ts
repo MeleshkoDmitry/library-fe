@@ -22,10 +22,7 @@ export class ModifyComponent {
     private route: ActivatedRoute,
     private store: Store<any>) {
     const _id = this.route.snapshot.paramMap.get('id');
-
-    _id ? this.store.select('book').subscribe((result) => {
-      this.book = result;
-    }) : this.book = new Book();
+    _id ? this.book = this.route.snapshot.data.book : this.book = new Book();
   }
 
   onSubmit(): void {

@@ -1,7 +1,7 @@
 import { OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Component, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducers/pagination.reducer';
+import { selectListPagination } from '../../store/reducers/book.reducer';
 
 @Component({
   selector: 'app-pagination',
@@ -10,7 +10,7 @@ import { AppState } from '../../store/reducers/pagination.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
+export class PaginationComponent implements OnChanges, OnInit {
   totalPages: number;
   currentPageSub: any;
 
@@ -20,7 +20,7 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
 
   @Output() pageEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<any>) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.totalRecords && !changes.totalRecords.firstChange) {
@@ -30,7 +30,6 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
 
   ngOnInit() {
     this.subscribe();
-    this.createTotalPages();
   }
 
   numberOnly(event): boolean {
@@ -58,8 +57,9 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   subscribe() {
-    this.currentPageSub = this.store.subscribe((result) => {
-      this.page = result.pagination.currentState;
+    this.currentPageSub = this.store.select(selectListPagination);
+    this.currentPageSub.subscribe(result => {
+      this.page = result.currentState;
       this.page > this.totalPages ? this.page = 1 : this.page = this.page;
     });
   }
@@ -68,7 +68,4 @@ export class PaginationComponent implements OnChanges, OnDestroy, OnInit {
     this.currentPageSub.unsubscribe();
   }
 
-  ngOnDestroy() {
-    this.unsubscribe();
-  }
 }

@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Book } from './book';
-import { BookService } from './book.service';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { selectViewBook } from '../store/reducers/book.reducer';
+import { take, filter } from 'rxjs/operators';
+import { BookService } from './book.service';
 
 @Injectable()
 
 export class BookResolver implements Resolve<Book> {
-    result: any;
-    constructor(private store: Store<Book>, private bookService: BookService) { }
-
+    constructor(private store: Store<Book>) { }
+    book$: any;
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Book> {
-/*         this.bookService.viewBook(route.params.id).subscribe(result => {
-            this.store.dispatch({ type: 'VIEW_BOOK_SUCCESS', payload: result });
-        });
-        this.result = this.store.select('book'); */
+        this.book$ = this.store.select(selectViewBook).pipe(filter(book => !!book), take(1));
+        this.store.dispatch({ type: 'VIEW_BOOK', payload: route.params.id });
+        return this.book$;
     }
 }

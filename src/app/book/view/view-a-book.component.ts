@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ChangeDetectionStrategy, Input, OnChanges } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Book } from '../book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,9 +12,8 @@ import { Store } from '@ngrx/store';
 
 export class ViewABookComponent {
   book: Book;
-  bookState: any;
+
   constructor(private router: Router, private route: ActivatedRoute, private store: Store<any>) {
-    console.log(this.route.snapshot.data);
     this.book = this.route.snapshot.data.book;
   }
 

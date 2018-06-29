@@ -5,10 +5,6 @@ export interface CustomAction extends Action {
     pageSize?: number;
 }
 
-export interface AppState {
-    pagination: any;
-}
-
 export function pageReducer(state = { prevState: 1, currentState: 1, pageSize: 5 }, action: CustomAction) {
     switch (action.type) {
         case 'INCREMENT':

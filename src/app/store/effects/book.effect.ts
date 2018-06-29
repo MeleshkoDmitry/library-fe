@@ -3,9 +3,10 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { BookService } from '../../book/book.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Book } from '../../book/book';
 
 @Injectable()
-export class BookEffects {
+export class BooksEffects {
     constructor(private bookService: BookService, private actions$: Actions) { }
 
     @Effect()
@@ -21,7 +22,7 @@ export class BookEffects {
     view$: Observable<any> = this.actions$.pipe(
         ofType('VIEW_BOOK'),
         switchMap((action: any) => this.bookService.viewBook(action.payload).pipe(
-            map(data => ({ type: 'VIEW_BOOK_SUCCESS', payload: data })),
+            map((data: Book) => ({ type: 'VIEW_BOOK_SUCCESS', payload: data })),
             catchError(() => of({ type: 'VIEW_BOOK_FAILED' }))
         ))
     );
@@ -30,7 +31,7 @@ export class BookEffects {
     edit$: Observable<any> = this.actions$.pipe(
         ofType('EDIT_BOOK'),
         switchMap((action: any) => this.bookService.viewBook(action.payload).pipe(
-            map(data => ({ type: 'EDIT_BOOK_SUCCESS', payload: data })),
+            map((data: Book) => ({ type: 'EDIT_BOOK_SUCCESS', payload: data })),
             catchError(() => of({ type: 'EDIT_BOOK_FAILED' }))
         ))
     );
