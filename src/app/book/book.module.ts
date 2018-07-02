@@ -10,8 +10,8 @@ import { BooksSearchComponent } from './list/search/books-search.component';
 import { PaginationComponent } from '../common/pagination/pagination.component';
 import { BookContainerComponent } from './book.container';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from '../store/reducers/book.reducer';
-import { BooksEffects } from '../store/effects/book.effect';
+import { booksReducer } from './store/reducers/book.reducer';
+import { BooksEffects } from './store/effects/book.effect';
 import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { EffectsModule } from '@ngrx/effects';
     PaginationComponent
   ],
   imports: [
-    StoreModule.forFeature('books', reducers),
+    StoreModule.forFeature('books', booksReducer),
     EffectsModule.forRoot([BooksEffects]),
     BookRouting,
     CommonModule,

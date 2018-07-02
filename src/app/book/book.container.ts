@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Book, BookFilter } from './book';
-import { selectList, selectListPagination } from '../store/reducers/book.reducer';
+import { selectList, selectListPagination, selectListBooks } from './store/reducers/book.reducer';
 
 @Component({
     selector: 'app-container-book',
@@ -10,16 +10,14 @@ import { selectList, selectListPagination } from '../store/reducers/book.reducer
         (searchEvent)="onSearch($event)">
     </app-books-search>
     <app-list-books
-        [books]="(items$ | async).books?.books">
+        [books]="(items$ | async).items?.books">
     </app-list-books>
     <app-pagination
         [page]="bookFilter.page"
         [pageSize]="bookFilter.pageSize"
-        [totalRecords]="(items$ | async).books?.totalRecords"
+        [totalRecords]="(items$ | async).items?.totalRecords"
         (pageEvent)="pageChange($event)">
     </app-pagination>`,
-    styles: [''],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BookContainerComponent implements OnInit {
@@ -41,6 +39,7 @@ export class BookContainerComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadBooks();
+        this.store.subscribe(console.log);
     }
 
     loadBooks(): void {
@@ -48,6 +47,7 @@ export class BookContainerComponent implements OnInit {
     }
 
     pageChange(event: any) {
+        console.log(`event`, event);
         this.bookFilter.page = event.page;
         this.bookFilter.pageSize = event.pageSize;
         this.loadBooks();

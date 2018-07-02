@@ -1,7 +1,8 @@
 import { OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Component, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectListPagination } from '../../store/reducers/book.reducer';
+import { selectListPagination, selectFeature } from '../../book/store/reducers/book.reducer';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pagination',
@@ -10,9 +11,9 @@ import { selectListPagination } from '../../store/reducers/book.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class PaginationComponent implements OnChanges, OnInit {
+export class PaginationComponent implements OnChanges {
   totalPages: number;
-  currentPageSub: any;
+  currentPageSub: Subscription;
 
   @Input() page: number;
   @Input() pageSize: number;
@@ -20,16 +21,12 @@ export class PaginationComponent implements OnChanges, OnInit {
 
   @Output() pageEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private store: Store<any>) { }
+  constructor(private store: Store<any>) { this.subscribe(); }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.totalRecords && !changes.totalRecords.firstChange) {
       this.createTotalPages();
     }
-  }
-
-  ngOnInit() {
-    this.subscribe();
   }
 
   numberOnly(event): boolean {
@@ -38,11 +35,15 @@ export class PaginationComponent implements OnChanges, OnInit {
 
   next(): void {
     this.store.dispatch({ type: 'INCREMENT' });
+    this.subscribe();
+    this.currentPageSub.unsubscribe();
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
   prev(): void {
     this.store.dispatch({ type: 'DECREMENT' });
+    this.subscribe();
+    this.currentPageSub.unsubscribe();
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
@@ -57,15 +58,11 @@ export class PaginationComponent implements OnChanges, OnInit {
   }
 
   subscribe() {
-    this.currentPageSub = this.store.select(selectListPagination);
-    this.currentPageSub.subscribe(result => {
-      this.page = result.currentState;
-      this.page > this.totalPages ? this.page = 1 : this.page = this.page;
-    });
+    this.currentPageSub = this.store.select(selectListPagination)
+      .subscribe(result => {
+        console.log(`result`, result);
+        this.page = result.page;
+        this.page > this.totalPages ? this.page = 1 : this.page = this.page;
+      });
   }
-
-  unsubscribe() {
-    this.currentPageSub.unsubscribe();
-  }
-
 }

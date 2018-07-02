@@ -1,8 +1,6 @@
-import { Component, ChangeDetectionStrategy, Input, OnChanges } from '@angular/core';
-import { BookService } from '../book.service';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../book';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-list-books',
@@ -11,17 +9,13 @@ import { Store } from '@ngrx/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ListBooksComponent implements OnChanges {
+export class ListBooksComponent {
   @Input() books: Book[];
 
   subscriber: any;
 
-  constructor(
-    private bookService: BookService,
-    private router: Router,
-    private store: Store<any>) { }
+  constructor(private router: Router) { }
 
-  ngOnChanges() { }
   viewBook(_id: string): void {
     this.router.navigate(['/books/viewbook/', _id]);
   }
