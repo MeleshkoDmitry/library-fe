@@ -18,7 +18,7 @@ export class BooksSearchComponent {
   search() {
     this.store.dispatch({
       type: 'SEARCH_BOOKS',
-      searchBooks: { title: this.title, author: this.author }
+      payload: { title: this.title, author: this.author }
     });
     this.searchEvent.emit();
   }

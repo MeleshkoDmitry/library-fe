@@ -1,7 +1,7 @@
-import { OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { OnChanges } from '@angular/core';
 import { Component, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectListPagination, selectFeature } from '../../book/store/reducers/book.reducer';
+import { selectListPagination } from '../../book/store/reducers/book.reducer';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -48,8 +48,10 @@ export class PaginationComponent implements OnChanges {
   }
 
   changeValue(): void {
-    this.store.dispatch({ type: 'PAGE_SIZE', pageSize: +this.pageSize });
+    this.store.dispatch({ type: 'PAGE_SIZE', payload: +this.pageSize });
+    this.subscribe();
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
+    this.currentPageSub.unsubscribe();
     this.createTotalPages();
   }
 
@@ -60,7 +62,6 @@ export class PaginationComponent implements OnChanges {
   subscribe() {
     this.currentPageSub = this.store.select(selectListPagination)
       .subscribe(result => {
-        console.log(`result`, result);
         this.page = result.page;
         this.page > this.totalPages ? this.page = 1 : this.page = this.page;
       });

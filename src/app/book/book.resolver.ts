@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectViewBook } from './store/reducers/book.reducer';
 import { take, filter } from 'rxjs/operators';
-import { BookService } from './book.service';
 
 @Injectable()
 
@@ -15,6 +14,7 @@ export class BookResolver implements Resolve<Book> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Book> {
         this.store.dispatch({ type: 'VIEW_BOOK', payload: route.params.id });
         this.book$ = this.store.select(selectViewBook).pipe(filter(book => !!book), take(1));
+        this.store.subscribe(console.log);
         return this.book$;
     }
 }

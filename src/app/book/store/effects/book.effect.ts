@@ -27,12 +27,12 @@ export class BooksEffects {
         ))
     );
 
-    @Effect()
-    edit$: Observable<any> = this.actions$.pipe(
-        ofType('EDIT_BOOK'),
-        switchMap((action: any) => this.bookService.viewBook(action.payload).pipe(
-            map((data: Book) => ({ type: 'EDIT_BOOK_SUCCESS', payload: data })),
-            catchError(() => of({ type: 'EDIT_BOOK_FAILED' }))
-        ))
-    );
+    /*     @Effect()
+        edit$: Observable<any> = this.actions$.pipe(
+            ofType('EDIT_BOOK'),
+            switchMap((action: any) => this.bookService.viewBook(action.payload).pipe(
+                map((data: Book) => ({ type: 'EDIT_BOOK_SUCCESS', payload: data })),
+                catchError(() => of({ type: 'EDIT_BOOK_FAILED' }))
+            ))
+        ); */
 }
