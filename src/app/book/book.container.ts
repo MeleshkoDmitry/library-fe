@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Book, BookFilter } from './book';
 import { selectListPagination, selectListBooks, selectListFilter } from './store/reducers/book.reducer';
@@ -10,6 +10,7 @@ import { selectListPagination, selectListBooks, selectListFilter } from './store
         (searchEvent)="onSearch($event)">
     </app-books-search>
     <app-list-books
+        (delBook)="deleteRecord($event)"
         [books]="(items$ | async)?.books">
     </app-list-books>
     <app-pagination
@@ -54,6 +55,13 @@ export class BookContainerComponent implements OnInit {
         this.loadBooks();
     }
 
+    deleteRecord(event: string): void {
+        this.store.dispatch({
+            type: 'DELETE_BOOK',
+            payload: event,
+            bookFilter: this.bookFilter
+        });
+    }
     onSearch(): void {
         this.filter$.subscribe(result => {
             this.bookFilter.page = 1;

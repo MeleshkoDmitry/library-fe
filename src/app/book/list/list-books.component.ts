@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../book';
 
@@ -11,8 +11,7 @@ import { Book } from '../book';
 
 export class ListBooksComponent {
   @Input() books: Book[];
-
-  subscriber: any;
+  @Output() delBook: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private router: Router) { }
 
@@ -22,5 +21,9 @@ export class ListBooksComponent {
 
   editBook(_id: string): void {
     this.router.navigate(['/books/editbook/', _id]);
+  }
+
+  deleteBook(_id: string): void {
+    this.delBook.emit(_id);
   }
 }

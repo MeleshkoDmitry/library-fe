@@ -5,6 +5,10 @@ import { BookService } from '../../book.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Book } from '../../book';
 
+interface Action {
+    type: string; payload?: any; bookFilter?: any;
+}
+
 @Injectable()
 export class BooksEffects {
     constructor(private bookService: BookService, private actions$: Actions) { }
@@ -12,7 +16,7 @@ export class BooksEffects {
     @Effect()
     load$: Observable<any> = this.actions$.pipe(
         ofType('VIEW_LIST_BOOKS'),
-        switchMap((action: any) => this.bookService.viewListBooks(action.payload).pipe(
+        switchMap((action: Action) => this.bookService.viewListBooks(action.payload).pipe(
             map(data => ({ type: 'VIEW_LIST_BOOKS_SUCCESS', payload: data })),
             catchError(() => of({ type: 'VIEW_LIST_BOOKS_FAILED' }))
         ))
@@ -21,7 +25,7 @@ export class BooksEffects {
     @Effect()
     view$: Observable<any> = this.actions$.pipe(
         ofType('VIEW_BOOK'),
-        switchMap((action: any) => this.bookService.viewBook(action.payload).pipe(
+        switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
             map((data: Book) => ({ type: 'VIEW_BOOK_SUCCESS', payload: data })),
             catchError(() => of({ type: 'VIEW_BOOK_FAILED' }))
         ))
@@ -30,9 +34,17 @@ export class BooksEffects {
     @Effect()
     edit$: Observable<any> = this.actions$.pipe(
         ofType('EDIT_BOOK'),
-        switchMap((action: any) => this.bookService.viewBook(action.payload).pipe(
+        switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
             map((data: Book) => ({ type: 'EDIT_BOOK_SUCCESS', payload: data })),
             catchError(() => of({ type: 'EDIT_BOOK_FAILED' }))
         ))
     );
+
+    @Effect()
+    delete$: Observable<any> = this.actions$.pipe(
+        ofType('DELETE_BOOK'),
+        switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
+            map(() => ({ type: 'VIEW_LIST_BOOKS', payload: action.bookFilter }))
+        )
+        ));
 }
