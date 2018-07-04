@@ -1,8 +1,7 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Book } from '../book';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-post-a-book',
@@ -18,8 +17,7 @@ export class ModifyComponent {
   constructor(
     private bookService: BookService,
     private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<any>) {
+    private route: ActivatedRoute) {
     const _id = this.route.snapshot.paramMap.get('id');
     _id ? this.book = this.route.snapshot.data.book : this.book = new Book();
   }
@@ -34,7 +32,6 @@ export class ModifyComponent {
       : action = this.bookService.addBook(this.book);
 
     action.subscribe((result) => {
-      this.store.dispatch({ type: 'VIEW_BOOK', book: result });
       this.router.navigate(['/books/viewbook/', result._id]);
     });
   }

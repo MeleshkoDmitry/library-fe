@@ -8,7 +8,7 @@ import { take, filter } from 'rxjs/operators';
 
 @Injectable()
 
-export class BookResolver implements Resolve<Book> {
+export class ViewBookResolver implements Resolve<Book> {
     constructor(private store: Store<Book>) { }
     book$: any;
     resolve(route: ActivatedRouteSnapshot): Observable<Book> {
