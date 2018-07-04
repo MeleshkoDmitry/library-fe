@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../book';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-list-books',
@@ -11,9 +12,8 @@ import { Book } from '../book';
 
 export class ListBooksComponent {
   @Input() books: Book[];
-  @Output() delBook: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store<any>) { }
 
   viewBook(_id: string): void {
     this.router.navigate(['/books/viewbook/', _id]);
@@ -24,6 +24,9 @@ export class ListBooksComponent {
   }
 
   deleteBook(_id: string): void {
-    this.delBook.emit(_id);
+    this.store.dispatch({
+      type: 'DELETE_BOOK',
+      payload: _id,
+    });
   }
 }

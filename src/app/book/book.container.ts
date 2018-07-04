@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Book, BookFilter } from './book';
-import { selectListPagination, selectListBooks, selectListFilter } from './store/reducers/book.reducer';
+import { selectListPagination, selectListBooks, selectListFilter, selectDelete } from './store/reducers/book.reducer';
 
 @Component({
     selector: 'app-container-book',
@@ -10,7 +10,6 @@ import { selectListPagination, selectListBooks, selectListFilter } from './store
         (searchEvent)="onSearch($event)">
     </app-books-search>
     <app-list-books
-        (delBook)="deleteRecord($event)"
         [books]="(items$ | async)?.books">
     </app-list-books>
     <app-pagination
@@ -19,6 +18,7 @@ import { selectListPagination, selectListBooks, selectListFilter } from './store
         [totalRecords]="(items$ | async)?.totalRecords"
         (pageEvent)="pageChange($event)">
     </app-pagination>`,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BookContainerComponent implements OnInit {
@@ -29,20 +29,29 @@ export class BookContainerComponent implements OnInit {
     items$: any;
     pages$: any;
     filter$: any;
+    delete$: any;
 
     constructor(private store: Store<any>) {
         this.items$ = this.store.select(selectListBooks);
         this.pages$ = this.store.select(selectListPagination);
         this.filter$ = this.store.select(selectListFilter);
+        this.delete$ = this.store.select(selectDelete);
 
-        this.bookFilter = new BookFilter();
-        this.bookFilter.page = 1;
-        this.bookFilter.pageSize = 5;
-        this.bookFilter.sort = '-1';
+        this.pages$.subscribe(result => {
+            this.bookFilter = new BookFilter();
+            this.bookFilter.page = result.page;
+            this.bookFilter.pageSize = result.pageSize;
+        });
     }
 
     ngOnInit(): void {
+
         this.loadBooks();
+        this.delete$.subscribe(result => {
+            if (result) { this.loadBooks(); }
+            return false;
+        });
+        this.pages$.subscribe(console.log);
     }
 
     loadBooks(): void {
@@ -55,13 +64,6 @@ export class BookContainerComponent implements OnInit {
         this.loadBooks();
     }
 
-    deleteRecord(event: string): void {
-        this.store.dispatch({
-            type: 'DELETE_BOOK',
-            payload: event,
-            bookFilter: this.bookFilter
-        });
-    }
     onSearch(): void {
         this.filter$.subscribe(result => {
             this.bookFilter.page = 1;

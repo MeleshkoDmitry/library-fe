@@ -44,7 +44,7 @@ export class BooksEffects {
     delete$: Observable<any> = this.actions$.pipe(
         ofType('DELETE_BOOK'),
         switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
-            map(() => ({ type: 'VIEW_LIST_BOOKS', payload: action.bookFilter }))
+            map(() => ({ type: 'DELETE_BOOK_SUCCESS' }))
         )
         ));
 }

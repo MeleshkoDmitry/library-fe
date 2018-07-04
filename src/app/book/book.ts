@@ -9,5 +9,4 @@ export class BookFilter {
     author?: string;
     page: number;
     pageSize: number;
-    sort: string;
 }

@@ -20,7 +20,7 @@ export class BookService {
       .set('author', bookFilter.author || '.')
       .set('page', bookFilter.page.toString())
       .set('pageSize', bookFilter.pageSize.toString())
-      .set('sort', bookFilter.sort);
+      .set('sort', '-1');
     return this.http.get<any>(`${this.apiUrl}/library/?${queryParams}`);
   }
 
