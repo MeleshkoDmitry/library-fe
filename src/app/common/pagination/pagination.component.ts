@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 export class PaginationComponent implements OnChanges {
   totalPages: number;
-  currentPageSub: Subscription;
+  subscriber: Subscription;
 
   @Input() page: number;
   @Input() pageSize: number;
@@ -36,14 +36,14 @@ export class PaginationComponent implements OnChanges {
   next(): void {
     this.store.dispatch({ type: 'INCREMENT' });
     this.subscribe();
-    this.currentPageSub.unsubscribe();
+    this.subscriber.unsubscribe();
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
   prev(): void {
     this.store.dispatch({ type: 'DECREMENT' });
     this.subscribe();
-    this.currentPageSub.unsubscribe();
+    this.subscriber.unsubscribe();
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
   }
 
@@ -51,7 +51,7 @@ export class PaginationComponent implements OnChanges {
     this.store.dispatch({ type: 'PAGE_SIZE', payload: +this.pageSize });
     this.subscribe();
     this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
-    this.currentPageSub.unsubscribe();
+    this.subscriber.unsubscribe();
     this.createTotalPages();
   }
 
@@ -60,7 +60,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   subscribe() {
-    this.currentPageSub = this.store.select(selectListPagination)
+    this.subscriber = this.store.select(selectListPagination)
       .subscribe(result => {
         this.page = result.page;
         this.page > this.totalPages ? this.page = 1 : this.page = this.page;

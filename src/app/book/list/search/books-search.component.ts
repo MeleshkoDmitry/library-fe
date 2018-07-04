@@ -20,6 +20,7 @@ export class BooksSearchComponent {
       type: 'SEARCH_BOOKS',
       payload: { title: this.title, author: this.author }
     });
+    this.store.dispatch({ type: 'RESET' });
     this.searchEvent.emit();
   }
 

@@ -14,7 +14,6 @@ import { Store } from '@ngrx/store';
 export class ModifyComponent {
 
   book: Book;
-  bookState: any;
 
   constructor(
     private bookService: BookService,

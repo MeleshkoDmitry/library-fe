@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BookResolver } from './book.resolver';
 import { BookContainerComponent } from './book.container';
+import { EditBookResolver } from './edit.book.resolver';
 
 const bookRoutes: Routes = [
   {
@@ -12,7 +13,7 @@ const bookRoutes: Routes = [
       { path: '', component: BookContainerComponent },
       { path: 'addbook', component: ModifyComponent },
       { path: 'viewbook/:id', component: ViewABookComponent, resolve: { book: BookResolver } },
-      { path: 'editbook/:id', component: ModifyComponent, resolve: { book: BookResolver } }
+      { path: 'editbook/:id', component: ModifyComponent, resolve: { book: EditBookResolver } }
     ]
   },
 ];
@@ -20,7 +21,7 @@ const bookRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(bookRoutes)],
   exports: [RouterModule],
-  providers: [BookResolver]
+  providers: [BookResolver, EditBookResolver]
 })
 
 export class BookRouting { }

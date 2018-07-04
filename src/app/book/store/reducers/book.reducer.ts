@@ -7,7 +7,8 @@ export interface CustomAction extends Action {
 
 const initialState = {
     list: { items: {}, pagination: { page: 1, pageSize: 5 }, filter: {} },
-    view: { book: {} }
+    view: { book: { _id: null, title: null, author: null } },
+    edit: { book: { _id: null, title: null, author: null } }
 };
 
 export function booksReducer(state = initialState, action: CustomAction) {
@@ -16,14 +17,17 @@ export function booksReducer(state = initialState, action: CustomAction) {
             return Object.assign({}, state, {
                 list: Object.assign({}, state.list, { items: action.payload })
             });
-        case 'SEARCH_BOOKS':
-        console.log(action);
-            return Object.assign({}, state, {
-                list: Object.assign({}, state.list, { filter: action.payload })
-            });
         case 'VIEW_BOOK_SUCCESS':
             return Object.assign({}, state, {
                 view: Object.assign({}, state.view, { book: action.payload })
+            });
+        case 'EDIT_BOOK_SUCCESS':
+            return Object.assign({}, state, {
+                edit: Object.assign({}, state.edit, { book: action.payload })
+            });
+        case 'SEARCH_BOOKS':
+            return Object.assign({}, state, {
+                list: Object.assign({}, state.list, { filter: action.payload })
             });
         case 'INCREMENT':
             return Object.assign({}, state, state.list.pagination.page++,
@@ -34,6 +38,9 @@ export function booksReducer(state = initialState, action: CustomAction) {
         case 'PAGE_SIZE':
             return Object.assign({}, state, state.list.pagination.page = 1,
                 state.list.pagination.pageSize = +action.payload);
+        case 'RESET':
+            return Object.assign({}, state, state.list.pagination.page = 1,
+                state.list.pagination.pageSize);
         default:
             return state;
     }
@@ -55,13 +62,5 @@ export const selectListFilter = createSelector(selectList, (state: any) => state
 export const selectView = createSelector(selectFeature, (state: IBooksState) => state.view);
 export const selectViewBook = createSelector(selectView, (state: any) => state.book);
 
-
-
-/* export function SearchBooks(state = { title: '', author: '' }, action: CustomAction) {
-    switch (action.type) {
-        case 'SEARCH_BOOKS':
-            return { title: action.searchBooks.title, author: action.searchBooks.author };
-        default:
-            return state;
-    }
-} */
+export const selectEdit = createSelector(selectFeature, (state: IBooksState) => state.edit);
+export const selectEditBook = createSelector(selectEdit, (state: any) => state.book);
