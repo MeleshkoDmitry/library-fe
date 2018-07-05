@@ -1,8 +1,8 @@
-import { OnChanges } from '@angular/core';
-import { Component, Input, Output, EventEmitter, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, OnChanges, SimpleChanges, } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectListPagination } from '../../book/store/reducers/book.reducer';
 import { Subscription } from 'rxjs';
+import { Pagination } from '../../book/book';
 
 @Component({
   selector: 'app-pagination',
@@ -15,18 +15,17 @@ export class PaginationComponent implements OnChanges {
   totalPages: number;
   subscriber: Subscription;
 
-  @Input() page: number;
-  @Input() pageSize: number;
-  @Input() totalRecords: number;
+  @Input() pagination: Pagination;
 
   @Output() pageEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private store: Store<any>) { this.subscribe(); }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.totalRecords && !changes.totalRecords.firstChange) {
+  constructor(private store: Store<any>) {
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.pagination.currentValue && !changes.pagination.firstChange) {
       this.createTotalPages();
     }
+    this.pagination.page > this.totalPages ? this.pagination.page = 1 : this.pagination.page = this.pagination.page;
   }
 
   numberOnly(event): boolean {
@@ -34,36 +33,22 @@ export class PaginationComponent implements OnChanges {
   }
 
   next(): void {
-    this.store.dispatch({ type: 'INCREMENT' });
-    this.subscribe();
-    this.subscriber.unsubscribe();
-    this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
+    this.store.dispatch({ type: 'INCREMENT_BOOKS_PAGINATION' });
+    this.pageEvent.emit({ page: this.pagination.page, pageSize: this.pagination.pageSize });
   }
 
   prev(): void {
-    this.store.dispatch({ type: 'DECREMENT' });
-    this.subscribe();
-    this.subscriber.unsubscribe();
-    this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
+    this.store.dispatch({ type: 'DECREMENT_BOOKS_PAGINATION' });
+    this.pageEvent.emit({ page: this.pagination.page, pageSize: this.pagination.pageSize });
   }
 
   changeValue(): void {
-    this.store.dispatch({ type: 'PAGE_SIZE', payload: +this.pageSize });
-    this.subscribe();
-    this.pageEvent.emit({ page: this.page, pageSize: this.pageSize });
-    this.subscriber.unsubscribe();
+    this.store.dispatch({ type: 'PAGE_SIZE_BOOKS_PAGINATION', payload: +this.pagination.pageSize });
+    this.pageEvent.emit({ page: this.pagination.page, pageSize: this.pagination.pageSize });
     this.createTotalPages();
   }
 
   createTotalPages() {
-    this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
-  }
-
-  subscribe() {
-    this.subscriber = this.store.select(selectListPagination)
-      .subscribe(result => {
-        this.page = result.page;
-        this.page > this.totalPages ? this.page = 1 : this.page = this.page;
-      });
+    this.totalPages = Math.ceil(this.pagination.totalRecords / this.pagination.pageSize);
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Book, BookFilter } from './book';
+import { Book, QueryParams, Pagination } from './book';
 import { selectListPagination, selectListBooks, selectListFilter, selectDelete } from './store/reducers/book.reducer';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-container-book',
@@ -10,12 +11,10 @@ import { selectListPagination, selectListBooks, selectListFilter, selectDelete }
         (searchEvent)="onSearch($event)">
     </app-books-search>
     <app-list-books
-        [books]="(items$ | async)?.books">
+    [books]="(items$ | async)">
     </app-list-books>
     <app-pagination
-        [page]="bookFilter.page"
-        [pageSize]="bookFilter.pageSize"
-        [totalRecords]="(items$ | async)?.totalRecords"
+        [pagination]="(pages$ | async)"
         (pageEvent)="pageChange($event)">
     </app-pagination>`,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,9 +22,10 @@ import { selectListPagination, selectListBooks, selectListFilter, selectDelete }
 
 export class BookContainerComponent implements OnInit {
     books: Book[];
-    totalRecords: number;
 
-    bookFilter: BookFilter;
+    queryParams: QueryParams = new QueryParams();
+    pagination: Pagination = new Pagination();
+
     items$: any;
     pages$: any;
     filter$: any;
@@ -37,38 +37,38 @@ export class BookContainerComponent implements OnInit {
         this.filter$ = this.store.select(selectListFilter);
         this.delete$ = this.store.select(selectDelete);
 
-        this.pages$.subscribe(result => {
-            this.bookFilter = new BookFilter();
-            this.bookFilter.page = result.page;
-            this.bookFilter.pageSize = result.pageSize;
+        this.pages$.subscribe((result: Pagination) => {
+            this.queryParams.page = result.page;
+            this.queryParams.pageSize = result.pageSize;
+            this.pagination.page = this.queryParams.page;
+            this.pagination.pageSize = this.queryParams.pageSize;
+            this.pagination.totalRecords = result.totalRecords;
         });
     }
 
     ngOnInit(): void {
-
         this.loadBooks();
         this.delete$.subscribe(result => {
             if (result) { this.loadBooks(); }
             return false;
         });
-        this.pages$.subscribe(console.log);
     }
 
     loadBooks(): void {
-        this.store.dispatch({ type: 'VIEW_LIST_BOOKS', payload: this.bookFilter });
+        this.store.dispatch({ type: 'VIEW_LIST_BOOKS', payload: this.queryParams });
     }
 
     pageChange(event: any) {
-        this.bookFilter.page = event.page;
-        this.bookFilter.pageSize = event.pageSize;
+        this.queryParams.page = event.page;
+        this.queryParams.pageSize = event.pageSize;
         this.loadBooks();
     }
 
     onSearch(): void {
         this.filter$.subscribe(result => {
-            this.bookFilter.page = 1;
-            this.bookFilter.title = result.title;
-            this.bookFilter.author = result.author;
+            this.queryParams.page = 1;
+            this.queryParams.title = result.title;
+            this.queryParams.author = result.author;
             this.loadBooks();
         });
     }

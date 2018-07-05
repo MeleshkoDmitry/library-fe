@@ -1,8 +1,8 @@
 <div id="pagination">
-  <button [disabled]="page === 1" (click)="prev()"> Previous </button>
-  <label>{{page}} of {{totalPages}} </label>
-  <button [disabled]="page === totalPages" (click)="next()">Next </button>
+  <button [disabled]="pagination.page === 1" (click)="prev()"> Previous </button>
+  <label>{{pagination.page}} of {{totalPages}} </label>
+  <button [disabled]="pagination.page === totalPages" (click)="next()">Next </button>
   <label>View per page:
-    <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="pageSize" (input)="changeValue()">
+    <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="pagination.pageSize" (input)="changeValue()">
   </label>
 </div>
