@@ -1,17 +1,25 @@
-a {
-    display: flex;
-    flex-direction: row;
+.newbook {
     cursor: pointer;
+    min-width: 200px;
+    margin-left: 40px;
+    text-align: center;
+}
+.card{
+    background: none;
+    max-width: 150px;
+    max-height: 50px;
 }
 li {
     display: block;
+}
+
+li a {
+    display: grid;
     max-width: max-content;
 }
 label {
     display: block;
+    text-align: center;
     max-width: max-content;
 }
 
-.newBook {
-    margin-left: 2%;
-}

@@ -1,3 +1,4 @@
-#searchForm{
-    text-align: center;
+.searchForm{
+    max-width: max-content;
+    margin: 0 auto;
 }

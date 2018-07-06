@@ -1,30 +1,27 @@
-<button style='margin-left: 1%' (click)="viewAllBooks()">View all Books </button>
-<form ngSubmit="save()" style="text-align: center" novalidate #f="ngForm">
-  <div>
-    <label> Title:
-      <input type="text" placeholder="Title" name="title" [(ngModel)]="book.title" #titleState="ngModel" required minlength="4">
-    </label>
-    <div *ngIf="titleState.invalid && (titleState.dirty || titleState.touched)" class="alert alert-danger">
-      <div *ngIf="titleState.errors.required">
-        Title is required.
-      </div>
-      <div *ngIf="titleState.errors.minlength">
-        Title must be at least 4 characters long.
-      </div>
-    </div>
-  </div>
-  <div>
-    <label> Author:
-      <input type="text" placeholder="Author" name="author" [(ngModel)]="book.author" #authorState="ngModel" required minlength="4">
-    </label>
-    <div *ngIf="authorState.invalid && (authorState.dirty || authorState.touched)" class="alert alert-danger">
-      <div *ngIf="authorState.errors.required">
-        Author is required.
-      </div>
-      <div *ngIf="authorState.errors.minlength">
-        Author must be at least 4 characters long.
-      </div>
-    </div>
-  </div>
-  <button (click)='save()' [disabled]='f.invalid' type="submit">Submit</button>
+<a class="allbooks" mat-raised-button (click)="viewAllBooks()"><mat-icon>library_books</mat-icon> Show all Books </a>
+<form class="modifybook-form" ngSubmit="save()">
+  <mat-card class="card">
+    <mat-form-field>
+      <input matInput placeholder="Title" [(ngModel)]="book.title" name="title" [formControl]="titleController" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="titleController.hasError('minlength') && !titleController.hasError('required')">
+        Please enter a valid length
+      </mat-error>
+      <mat-error *ngIf="titleController.hasError('required')">
+        Property's is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Author" name="author" [(ngModel)]="book.author" [formControl]="authorController" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="authorController.hasError('minlength') && !authorController.hasError('required')">
+        Please enter a valid length
+      </mat-error>
+      <mat-error *ngIf="authorController.hasError('required')">
+        Property's is required
+      </mat-error>
+    </mat-form-field>
+    <button [disabled]="!titleController.valid || authorController.invalid" mat-raised-button color="primary" (click)='save()'
+      type="submit">
+      <mat-icon>check</mat-icon>
+    </button>
+  </mat-card>
 </form>

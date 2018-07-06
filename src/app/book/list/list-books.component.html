@@ -1,9 +1,17 @@
-<button class="newBook" routerLink="/books/addbook">Add new book</button>
+<a class="newbook" mat-raised-button routerLink="/books/addbook">
+  <mat-icon>add</mat-icon> New Book
+</a>
 <ul>
   <li *ngFor="let book of books">
-    <a (click)='viewBook(book._id)'> Title:{{book.title}}</a>
-    <a (click)='viewBook(book._id)'> Author:{{book.author}}</a>
-    <button (click)='deleteBook(book._id) '>Delete </button>
-    <button (click)='editBook(book._id) '>Edit </button>
+    <mat-card class="card">
+      <a (click)='viewBook(book._id)'> Title:{{book.title}}</a>
+      <a (click)='viewBook(book._id)'> Author:{{book.author}}</a>
+      <button mat-icon-button color="primary" (click)='deleteBook(book._id) '>
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)='editBook(book._id) '>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card>
   </li>
 </ul>

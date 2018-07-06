@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookRouting } from './book-routing';
 
 import { ModifyComponent } from './modify/post-a-book.component';
@@ -13,6 +13,8 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/reducers/book.reducer';
 import { BooksEffects } from './store/effects/book.effect';
 import { EffectsModule } from '@ngrx/effects';
+import { MatButtonModule, MatInputModule, MatIconModule, MatCardModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { EffectsModule } from '@ngrx/effects';
     ViewABookComponent,
     ListBooksComponent,
     BooksSearchComponent,
-    PaginationComponent
+    PaginationComponent,
+    ModifyComponent,
   ],
   imports: [
     StoreModule.forFeature('book', reducers),
@@ -29,7 +32,15 @@ import { EffectsModule } from '@ngrx/effects';
     BookRouting,
     CommonModule,
     FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    MatCardModule,
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
+    BrowserAnimationsModule
   ],
+  entryComponents: [ModifyComponent],
+  bootstrap: [ModifyComponent],
   providers: []
 })
 

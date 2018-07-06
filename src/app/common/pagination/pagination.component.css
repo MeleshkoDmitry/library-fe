@@ -1,4 +1,19 @@
-#pagination{
+.paginator{
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.card label {
+    display: flex;
+    align-items: center;
+}
+
+.slider{
+    display: grid;
 }

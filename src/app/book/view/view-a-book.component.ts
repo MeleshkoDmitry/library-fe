@@ -18,7 +18,6 @@ export class ViewABookComponent {
   }
 
   viewAllBooks() {
-    // this.store.dispatch({ type: 'RESET' });
     this.router.navigate(['/books']);
   }
 }

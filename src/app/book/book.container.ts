@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Book, QueryParams, Pagination } from './book';
 import { selectListPagination, selectListBooks, selectListFilter, selectDelete } from './store/reducers/book.reducer';
-import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-container-book',
@@ -10,13 +9,14 @@ import { filter } from 'rxjs/operators';
     <app-books-search
         (searchEvent)="onSearch($event)">
     </app-books-search>
-    <app-list-books
-    [books]="(items$ | async)">
-    </app-list-books>
     <app-pagination
         [pagination]="(pages$ | async)"
         (pageEvent)="pageChange($event)">
-    </app-pagination>`,
+    </app-pagination>
+    <app-list-books
+    [books]="(items$ | async)">
+    </app-list-books>`,
+    styles: [``],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

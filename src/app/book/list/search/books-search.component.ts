@@ -23,5 +23,6 @@ export class BooksSearchComponent {
     this.store.dispatch({ type: 'RESET_BOOKS_PAGINATION' });
     this.searchEvent.emit();
   }
-
 }
+
+

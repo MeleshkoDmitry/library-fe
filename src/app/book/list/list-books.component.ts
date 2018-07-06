@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../book';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
   selector: 'app-list-books',
   templateUrl: './list-books.component.html',
   styleUrls: ['./list-books.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class ListBooksComponent {

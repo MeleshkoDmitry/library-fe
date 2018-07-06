@@ -1,9 +1,11 @@
-<form id="searchForm">
-  <label>Title:
-    <input name="title" [(ngModel)]="title">
-  </label>
-  <label>Author:
-    <input name="author" [(ngModel)]="author">
-  </label>
-  <button (click)="search()" type="submit">Search</button>
+<form class="searchForm">
+  <mat-form-field>
+    <input matInput placeholder="Title" [(ngModel)]="title" name="title">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Author" [(ngModel)]="author" name="title">
+  </mat-form-field>
+  <button mat-icon-button color="primary" (click)="search()" type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
 </form>

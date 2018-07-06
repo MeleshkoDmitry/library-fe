@@ -1,0 +1,16 @@
+.modifybook-form {
+    display: grid;
+    max-width: max-content;
+    margin: 0 auto;
+}
+
+.card{
+    display: grid;
+}
+
+.allbooks {
+    cursor: pointer;
+    min-width: 200px;
+    margin-left: 40px;
+    text-align: center;
+}

@@ -2,6 +2,15 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Book } from '../book';
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-post-a-book',
@@ -11,6 +20,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class ModifyComponent {
+  titleController = new FormControl('', [
+    Validators.required,
+    Validators.minLength(4),
+  ]);
+
+  authorController = new FormControl('', [
+    Validators.required,
+    Validators.minLength(4),
+  ]);
+  matcher = new MyErrorStateMatcher();
 
   book: Book;
 
@@ -40,3 +59,5 @@ export class ModifyComponent {
     this.router.navigate(['/books']);
   }
 }
+
+

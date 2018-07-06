@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, OnChanges, SimpleChanges, } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges, } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectListPagination } from '../../book/store/reducers/book.reducer';
 import { Subscription } from 'rxjs';
 import { Pagination } from '../../book/book';
 
@@ -21,6 +20,7 @@ export class PaginationComponent implements OnChanges {
 
   constructor(private store: Store<any>) {
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.pagination.currentValue && !changes.pagination.firstChange) {
       this.createTotalPages();
