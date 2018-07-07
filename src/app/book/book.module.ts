@@ -13,7 +13,10 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/reducers/book.reducer';
 import { BooksEffects } from './store/effects/book.effect';
 import { EffectsModule } from '@ngrx/effects';
-import { MatButtonModule, MatInputModule, MatIconModule, MatCardModule } from '@angular/material';
+import {
+  MatButtonModule, MatInputModule, MatIconModule, MatCardModule,
+  MatSelectModule, MatOptionModule, MatTableModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -36,6 +39,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatInputModule,
     MatIconModule,
     MatCardModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatTableModule,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     BrowserAnimationsModule
   ],

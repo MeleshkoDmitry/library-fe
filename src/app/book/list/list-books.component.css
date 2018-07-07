@@ -4,22 +4,8 @@
     margin-left: 40px;
     text-align: center;
 }
-.card{
-    background: none;
-    max-width: 150px;
-    max-height: 50px;
-}
-li {
-    display: block;
-}
 
-li a {
-    display: grid;
-    max-width: max-content;
+table {
+    width: 50%;
+    margin: 0 auto;
 }
-label {
-    display: block;
-    text-align: center;
-    max-width: max-content;
-}
-

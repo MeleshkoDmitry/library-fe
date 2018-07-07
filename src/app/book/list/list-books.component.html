@@ -1,17 +1,36 @@
 <a class="newbook" mat-raised-button routerLink="/books/addbook">
   <mat-icon>add</mat-icon> New Book
 </a>
-<ul>
-  <li *ngFor="let book of books">
-    <mat-card class="card">
-      <a (click)='viewBook(book._id)'> Title:{{book.title}}</a>
-      <a (click)='viewBook(book._id)'> Author:{{book.author}}</a>
-      <button mat-icon-button color="primary" (click)='deleteBook(book._id) '>
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" (click)='editBook(book._id) '>
-        <mat-icon>edit</mat-icon>
-      </button>
-    </mat-card>
-  </li>
-</ul>
+<table mat-table [dataSource]="books" class="mat-elevation-z8">
+  <ng-container matColumnDef="No">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let index = index"> {{index+1}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef> title </th>
+    <td (click)='viewBook(element._id)' mat-cell *matCellDef="let element"> {{element.title}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <th mat-header-cell *matHeaderCellDef> author </th>
+    <td (click)='viewBook(element._id)' mat-cell *matCellDef="let element"> {{element.author}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef> edit </th>
+    <td (click)='editBook(element._id)' mat-cell *matCellDef="let element">
+      <mat-icon>edit</mat-icon>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> delete </th>
+    <td (click)='deleteBook(element._id)' mat-cell *matCellDef="let element">
+      <mat-icon>delete</mat-icon>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+</table>

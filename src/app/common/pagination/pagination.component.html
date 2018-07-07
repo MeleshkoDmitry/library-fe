@@ -1,5 +1,11 @@
 <div class="paginator">
   <mat-card class="card">
+    <label>Items per page:</label>
+    <mat-select class="content" placeholder="Items per page" name="pageSize" [(ngModel)]="pagination.pageSize">
+      <mat-option *ngFor=" let pageSize of selectPageSize " [value]="pageSize" (click)="changeValue()">
+        {{pageSize}}
+      </mat-option>
+    </mat-select>
     <button mat-icon-button color="primary" [disabled]="pagination.page === 1" (click)="prev()">
       <mat-icon>
         arrow_back_ios
@@ -11,8 +17,5 @@
         arrow_forward_ios
       </mat-icon>
     </button>
-      <label>Items per page:
-        <input (keypress)="numberOnly($event)" name="pageSize" [(ngModel)]="pagination.pageSize" (input)="changeValue()">
-      </label>
   </mat-card>
 </div>

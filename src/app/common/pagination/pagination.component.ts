@@ -13,12 +13,13 @@ import { Pagination } from '../../book/book';
 export class PaginationComponent implements OnChanges {
   totalPages: number;
   subscriber: Subscription;
-
+  selectPageSize = [];
   @Input() pagination: Pagination;
 
   @Output() pageEvent: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private store: Store<any>) {
+    this.selectPageSize = [1, 5, 10, 15];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -26,10 +27,6 @@ export class PaginationComponent implements OnChanges {
       this.createTotalPages();
     }
     this.pagination.page > this.totalPages ? this.pagination.page = 1 : this.pagination.page = this.pagination.page;
-  }
-
-  numberOnly(event): boolean {
-    return !isNaN(+event.key);
   }
 
   next(): void {

@@ -9,13 +9,13 @@ import { selectListPagination, selectListBooks, selectListFilter, selectDelete }
     <app-books-search
         (searchEvent)="onSearch($event)">
     </app-books-search>
+    <app-list-books
+        [books]="(items$ | async)">
+    </app-list-books>
     <app-pagination
         [pagination]="(pages$ | async)"
         (pageEvent)="pageChange($event)">
-    </app-pagination>
-    <app-list-books
-    [books]="(items$ | async)">
-    </app-list-books>`,
+    </app-pagination>`,
     styles: [``],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

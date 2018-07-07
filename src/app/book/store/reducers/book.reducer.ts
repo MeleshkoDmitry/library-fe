@@ -1,12 +1,12 @@
 import { Action, createFeatureSelector, createSelector, ActionReducerMap } from '@ngrx/store';
-import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
+import { Book, Pagination, BookFilter } from '../../book';
 
 export interface CustomAction extends Action {
     payload: any;
 }
 
 interface IBookListState {
-    items: IBookListItems;
+    items: Book[];
     pagination: Pagination;
     filter: BookFilter;
     delete: boolean;
@@ -22,8 +22,8 @@ export interface IBooksState {
     edit: ISingleBookState;
 }
 const initialListState: IBookListState = {
-    items: { books: [] },
-    pagination: { page: 1, pageSize: 5, totalRecords: 0 },
+    items: [],
+    pagination: { page: 1, pageSize: 10, totalRecords: 0 },
     filter: { title: null, author: null },
     delete: false
 };
