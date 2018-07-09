@@ -4,13 +4,6 @@ export class Book {
     author: string;
 }
 
-export class QueryParams {
-    title?: string;
-    author?: string;
-    page: number;
-    pageSize: number;
-}
-
 export class Pagination {
     page: number;
     pageSize: number;

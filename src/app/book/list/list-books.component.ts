@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 
 export class ListBooksComponent {
   @Input() books: Book[];
-  index = 0;
+
   constructor(private router: Router, private store: Store<any>) {
   }
 

@@ -1,6 +1,7 @@
 <a class="newbook" mat-raised-button routerLink="/books/addbook">
   <mat-icon>add</mat-icon> New Book
 </a>
+<div class="content">
 <table mat-table [dataSource]="books" class="mat-elevation-z8">
   <ng-container matColumnDef="No">
     <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -18,7 +19,7 @@
   </ng-container>
 
   <ng-container matColumnDef="edit">
-    <th mat-header-cell *matHeaderCellDef> edit </th>
+    <th mat-header-cell *matHeaderCellDef> edit</th>
     <td (click)='editBook(element._id)' mat-cell *matCellDef="let element">
       <mat-icon>edit</mat-icon>
     </td>
@@ -34,3 +35,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
 </table>
+</div>

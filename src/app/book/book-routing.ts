@@ -3,7 +3,7 @@ import { ViewABookComponent } from './view/view-a-book.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ViewBookResolver } from './view.book.resolver';
-import { BookContainerComponent } from './book.container';
+import { BookContainerComponent } from './list/book.container';
 import { EditBookResolver } from './edit.book.resolver';
 
 const bookRoutes: Routes = [

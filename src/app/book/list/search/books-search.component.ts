@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { BookFilter } from '../../book';
 
 @Component({
   selector: 'app-books-search',
@@ -10,18 +10,12 @@ import { Store } from '@ngrx/store';
 export class BooksSearchComponent {
   @Output() searchEvent: EventEmitter<any> = new EventEmitter();
 
-  title: string;
-  author: string;
+  @Input() filter: BookFilter;
 
-  constructor(private store: Store<any>) { }
+  constructor() { }
 
   search() {
-    this.store.dispatch({
-      type: 'SEARCH_BOOKS',
-      payload: { title: this.title, author: this.author }
-    });
-    this.store.dispatch({ type: 'RESET_BOOKS_PAGINATION' });
-    this.searchEvent.emit();
+    this.searchEvent.emit({ title: this.filter.title, author: this.filter.author });
   }
 }
 

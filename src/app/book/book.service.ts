@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Book, QueryParams, IBookListItems } from './book';
+import { Book, IBookListItems } from './book';
 import { environment } from '../../environments/environment';
+import { IBookListStateQuery } from './store/reducers/book.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,12 @@ export class BookService {
     this.apiUrl = environment.apiUrl;
   }
 
-  viewListBooks(queryParams: QueryParams): Observable<IBookListItems> {
+  viewListBooks(queryParams: IBookListStateQuery): Observable<IBookListItems> {
     const httpParams = new HttpParams()
-      .set('title', queryParams.title || '.')
-      .set('author', queryParams.author || '.')
-      .set('page', queryParams.page.toString())
-      .set('pageSize', queryParams.pageSize.toString())
+      .set('title', queryParams.filter.title || '.')
+      .set('author', queryParams.filter.author || '.')
+      .set('page', queryParams.pagination.page.toString())
+      .set('pageSize', queryParams.pagination.pageSize.toString())
       .set('sort', '-1');
     return this.http.get<IBookListItems>(`${this.apiUrl}/library/?${httpParams}`);
   }

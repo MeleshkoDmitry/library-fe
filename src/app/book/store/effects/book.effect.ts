@@ -47,4 +47,10 @@ export class BooksEffects {
             map(() => ({ type: 'DELETE_BOOK_SUCCESS' }))
         )
         ));
+
+    @Effect()
+    pagination$: Observable<any> = this.actions$.pipe(
+        ofType('PAGINATION'),
+        map((action: Action) => ({ type: 'PAGINATION_EVENT', payload: action.payload }))
+    );
 }

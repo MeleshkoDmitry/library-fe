@@ -3,9 +3,17 @@
     min-width: 200px;
     margin-left: 40px;
     text-align: center;
+    position: absolute;
+}
+
+.content{
+    height: 400px;
+    width: max-content;
+    margin: 0 auto;
+    overflow: auto;
 }
 
 table {
-    width: 50%;
-    margin: 0 auto;
+    min-width: 700px;
+    width: 60%;
 }

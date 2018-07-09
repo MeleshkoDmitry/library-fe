@@ -29,6 +29,7 @@ export class ModifyComponent {
     Validators.required,
     Validators.minLength(4),
   ]);
+
   matcher = new MyErrorStateMatcher();
 
   book: Book;
