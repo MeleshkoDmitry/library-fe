@@ -1,5 +1,6 @@
 import { Action, createFeatureSelector, createSelector, ActionReducerMap } from '@ngrx/store';
 import { Book, Pagination, BookFilter } from '../../book';
+import { BookActionTypes } from '../actions/actions';
 
 export interface CustomAction extends Action {
     payload: any;
@@ -38,27 +39,27 @@ const initialSingleBook: ISingleBookState = {
 
 export function listReducer(state: IBookListState = initialListState, action: CustomAction) {
     switch (action.type) {
-        case 'VIEW_LIST_BOOKS_SUCCESS':
+        case BookActionTypes.LoadSuccess:
             return Object.assign({}, state, { items: action.payload.books }, { delete: false }, {
                 query: Object.assign({}, state.query, {
                     pagination: Object.assign({}, state.query.pagination,
                         { totalRecords: action.payload.totalRecords })
                 })
             });
-        case 'PAGINATION_EVENT':
+        case BookActionTypes.PaginationEventSuccess:
             return Object.assign({}, state, {
                 query: Object.assign({}, state.query, {
                     pagination: Object.assign({}, state.query.pagination,
                         { page: action.payload.page, pageSize: action.payload.pageSize })
                 })
             });
-        case 'SEARCH_BOOKS':
+        case BookActionTypes.SearchBooks:
             return Object.assign({}, state, {
-                query: Object.assign({}, state.query, { filter: action.payload }, {
-                    pagination: Object.assign({}, state.query.pagination, { page: 1 })
-                })
-            });
-        case 'DELETE_BOOK_SUCCESS':
+                pagination: Object.assign({}, state.query.pagination, { page: 1 })
+            }, {
+                query: Object.assign({}, state.query, { filter: action.payload }, )
+                });
+        case BookActionTypes.DeleteSuccess:
             return Object.assign({}, state, { delete: true });
         default:
             return state;
@@ -66,7 +67,7 @@ export function listReducer(state: IBookListState = initialListState, action: Cu
 }
 export function viewReducer(state: ISingleBookState = initialSingleBook, action: CustomAction) {
     switch (action.type) {
-        case 'VIEW_BOOK_SUCCESS':
+        case BookActionTypes.ViewSuccess:
             return Object.assign({}, state, { book: action.payload });
         default:
             return state;
@@ -75,30 +76,31 @@ export function viewReducer(state: ISingleBookState = initialSingleBook, action:
 
 export function editReducer(state: ISingleBookState = initialSingleBook, action: CustomAction) {
     switch (action.type) {
-        case 'EDIT_BOOK_SUCCESS':
+        case BookActionTypes.EditSuccess:
             return Object.assign({}, state, { book: action.payload });
         default:
             return state;
     }
 }
 
-export const reducers: ActionReducerMap<IBooksState> = {
-    list: listReducer,
-    view: viewReducer,
-    edit: editReducer
-};
-
 export const selectFeature = createFeatureSelector<IBooksState>('book');
 
 export const selectList = createSelector(selectFeature, (state: IBooksState) => state.list);
 export const selectListBooks = createSelector(selectList, (state: IBookListState) => state.items);
 export const selectDelete = createSelector(selectList, (state: IBookListState) => state.delete);
+
 export const selectListQuery = createSelector(selectList, (state: IBookListState) => state.query);
-export const selectListQueryPagination = createSelector(selectList, (state: IBookListState) => state.query.pagination);
-export const selectListQueryFilter = createSelector(selectList, (state: IBookListState) => state.query.filter);
+export const selectListQueryPagination = createSelector(selectListQuery, (state: IBookListStateQuery) => state.pagination);
+export const selectListQueryFilter = createSelector(selectListQuery, (state: IBookListStateQuery) => state.filter);
 
 export const selectView = createSelector(selectFeature, (state: IBooksState) => state.view);
 export const selectViewBook = createSelector(selectView, (state: ISingleBookState) => state.book);
 
 export const selectEdit = createSelector(selectFeature, (state: IBooksState) => state.edit);
 export const selectEditBook = createSelector(selectEdit, (state: ISingleBookState) => state.book);
+
+export const reducers: ActionReducerMap<IBooksState> = {
+    list: listReducer,
+    view: viewReducer,
+    edit: editReducer
+};

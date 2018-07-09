@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../book';
 import { Store } from '@ngrx/store';
+import { Delete } from '../store/actions/actions';
 
 @Component({
   selector: 'app-list-books',
@@ -13,10 +14,10 @@ import { Store } from '@ngrx/store';
 export class ListBooksComponent {
   @Input() books: Book[];
 
+  displayedColumns: string[] = ['No', 'title', 'author', 'edit', 'delete'];
+
   constructor(private router: Router, private store: Store<any>) {
   }
-
-  displayedColumns: string[] = ['No', 'title', 'author', 'edit', 'delete'];
 
   viewBook(_id: string): void {
     this.router.navigate(['/books/viewbook/', _id]);
@@ -27,9 +28,6 @@ export class ListBooksComponent {
   }
 
   deleteBook(_id: string): void {
-    this.store.dispatch({
-      type: 'DELETE_BOOK',
-      payload: _id,
-    });
+    this.store.dispatch(new Delete(_id));
   }
 }

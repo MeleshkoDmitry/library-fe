@@ -4,6 +4,10 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { BookService } from '../../book.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Book } from '../../book';
+import {
+    BookActionTypes, LoadSuccess, ViewSuccess, EditSuccess, DeleteSuccess,
+    PaginationEventSuccess
+} from '../actions/actions';
 
 interface Action {
     type: string; payload?: any; bookFilter?: any;
@@ -15,42 +19,38 @@ export class BooksEffects {
 
     @Effect()
     load$: Observable<any> = this.actions$.pipe(
-        ofType('VIEW_LIST_BOOKS'),
+        ofType(BookActionTypes.Load),
         switchMap((action: Action) => this.bookService.viewListBooks(action.payload).pipe(
-            map(data => ({ type: 'VIEW_LIST_BOOKS_SUCCESS', payload: data })),
-            catchError(() => of({ type: 'VIEW_LIST_BOOKS_FAILED' }))
+            map((books: Book[]) => new LoadSuccess(books))
         ))
     );
 
     @Effect()
     view$: Observable<any> = this.actions$.pipe(
-        ofType('VIEW_BOOK'),
+        ofType(BookActionTypes.View),
         switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
-            map((data: Book) => ({ type: 'VIEW_BOOK_SUCCESS', payload: data })),
-            catchError(() => of({ type: 'VIEW_BOOK_FAILED' }))
+            map((book: Book) => new ViewSuccess(book))
         ))
     );
 
     @Effect()
     edit$: Observable<any> = this.actions$.pipe(
-        ofType('EDIT_BOOK'),
+        ofType(BookActionTypes.Edit),
         switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
-            map((data: Book) => ({ type: 'EDIT_BOOK_SUCCESS', payload: data })),
-            catchError(() => of({ type: 'EDIT_BOOK_FAILED' }))
+            map((book: Book) => new EditSuccess(book))
         ))
     );
 
     @Effect()
     delete$: Observable<any> = this.actions$.pipe(
-        ofType('DELETE_BOOK'),
+        ofType(BookActionTypes.Delete),
         switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
-            map(() => ({ type: 'DELETE_BOOK_SUCCESS' }))
-        )
+            map(() => new DeleteSuccess()))
         ));
 
     @Effect()
     pagination$: Observable<any> = this.actions$.pipe(
-        ofType('PAGINATION'),
-        map((action: Action) => ({ type: 'PAGINATION_EVENT', payload: action.payload }))
+        ofType(BookActionTypes.PaginationEvent),
+        map((action: Action) => new PaginationEventSuccess(action.payload))
     );
 }

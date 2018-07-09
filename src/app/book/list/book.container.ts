@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { BookFilter, Pagination } from '../book';
 import {
     selectListQueryPagination, selectListBooks,
-    selectListQueryFilter, selectDelete, selectListQuery
+    selectListQueryFilter, selectDelete, selectListQuery, IBookListStateQuery
 } from '../store/reducers/book.reducer';
 import { Subscription } from 'rxjs';
+import { Load, PaginationEvent, SearchBooks } from '../store/actions/actions';
 
 @Component({
     selector: 'app-container-book',
@@ -32,7 +33,7 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     delete$: any;
     query$: any;
 
-    queryParams: any;
+    queryParams: IBookListStateQuery;
     subscriber: Subscription = new Subscription();
 
     constructor(private store: Store<any>) {
@@ -54,18 +55,16 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     }
 
     loadBooks(): void {
-        this.store.dispatch({ type: 'VIEW_LIST_BOOKS', payload: this.queryParams });
+        this.store.dispatch(new Load(this.queryParams));
     }
 
     pageChange(event: Pagination) {
-        this.store.dispatch({ type: 'PAGINATION', payload: event });
+        this.store.dispatch(new PaginationEvent(event));
         this.loadBooks();
     }
 
     onSearch(event: BookFilter): void {
-        this.store.dispatch({
-            type: 'SEARCH_BOOKS', payload: { title: event.title, author: event.author }
-        });
+        this.store.dispatch(new SearchBooks(event));
         this.loadBooks();
     }
 

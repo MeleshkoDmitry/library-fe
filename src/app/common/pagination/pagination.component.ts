@@ -37,8 +37,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   changeValue(): void {
-    this.pageEvent.emit({ page: this.pagination.page, pageSize: this.pagination.pageSize });
     this.createTotalPages();
-    this.pagination.page > this.totalPages ? this.pagination.page = 1 : this.pagination.page = this.pagination.page;
+    this.pageEvent.emit({ page: this.pagination.page, pageSize: this.pagination.pageSize });
   }
 }
