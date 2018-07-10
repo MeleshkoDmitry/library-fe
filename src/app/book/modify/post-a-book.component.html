@@ -1,4 +1,5 @@
-<a class="allbooks" mat-raised-button (click)="viewAllBooks()"><mat-icon>library_books</mat-icon> Show all Books </a>
+<a class="allbooks" mat-raised-button (click)="moveBack.emit()">
+  <mat-icon>library_books</mat-icon> Show all Books </a>
 <form class="modifybook-form" ngSubmit="save()">
   <mat-card class="card">
     <mat-form-field>
@@ -19,7 +20,7 @@
         Property's is required
       </mat-error>
     </mat-form-field>
-    <button [disabled]="!titleController.valid || authorController.invalid" mat-raised-button color="primary" (click)='save()'
+    <button [disabled]="!titleController.valid || authorController.invalid" mat-raised-button color="primary" (click)='save.emit(book)'
       type="submit">
       <mat-icon>check</mat-icon>
     </button>

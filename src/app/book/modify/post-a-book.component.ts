@@ -1,9 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Book } from '../book';
-import { BookService } from '../book.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
+import { FormGroupDirective, FormControl, NgForm, Validators } from '@angular/forms';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -20,45 +18,23 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class ModifyComponent {
+  @Input() book: Book;
+
+  @Output() moveBack: EventEmitter<any> = new EventEmitter<any>();
+  @Output() save: EventEmitter<Book> = new EventEmitter<Book>();
+
   titleController = new FormControl('', [
     Validators.required,
     Validators.minLength(4),
+    Validators.maxLength(20)
   ]);
-
   authorController = new FormControl('', [
     Validators.required,
-    Validators.minLength(4),
+    Validators.minLength(2),
+    Validators.maxLength(10)
   ]);
-
   matcher = new MyErrorStateMatcher();
-
-  book: Book;
-
-  constructor(
-    private bookService: BookService,
-    private router: Router,
-    private route: ActivatedRoute) {
-    const _id = this.route.snapshot.paramMap.get('id');
-    _id ? this.book = this.route.snapshot.data.book : this.book = new Book();
-  }
-
-  onSubmit(): void {
-    this.save();
-  }
-
-  save(): void {
-    let action;
-    this.book._id ? action = this.bookService.editBook(this.book._id, this.book)
-      : action = this.bookService.addBook(this.book);
-
-    action.subscribe((result) => {
-      this.router.navigate(['/books/viewbook/', result._id]);
-    });
-  }
-
-  viewAllBooks() {
-    this.router.navigate(['/books']);
-  }
+  constructor() { }
 }
 
 

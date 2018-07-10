@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Book } from './book';
+import { Book } from '../book';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectEditBook } from './store/reducers/book.reducer';
+import { selectEditBook } from '../store/reducers/book.reducer';
 import { take, filter } from 'rxjs/operators';
-import { Edit } from './store/actions/actions';
+import { Edit } from '../store/actions/actions';
 
 @Injectable()
 

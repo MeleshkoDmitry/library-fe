@@ -4,6 +4,6 @@
     <div> id:{{ book._id }}</div>
     <div> Title:{{book.title}}</div>
     <div> Author:{{book.author}}</div>
-    <button class="checkbtn"mat-raised-button color="primary" (click)='viewAllBooks()'><mat-icon>check</mat-icon></button>
+    <button class="checkbtn"mat-raised-button color="primary" (click)='moveBack.emit()'><mat-icon>check</mat-icon></button>
   </mat-card>
 </div>

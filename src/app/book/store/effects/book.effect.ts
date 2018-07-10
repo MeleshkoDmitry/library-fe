@@ -6,7 +6,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Book } from '../../book';
 import {
     BookActionTypes, LoadSuccess, ViewSuccess, EditSuccess, DeleteSuccess,
-    PaginationEventSuccess
+    PaginationEventSuccess,
 } from '../actions/actions';
 
 interface Action {

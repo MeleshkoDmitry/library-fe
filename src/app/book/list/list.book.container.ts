@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BookFilter, Pagination } from '../book';
+import { BookFilter, Pagination, Book } from '../book';
 import {
     selectListQueryPagination, selectListBooks,
     selectListQueryFilter, selectDelete, selectListQuery, IBookListStateQuery
 } from '../store/reducers/book.reducer';
 import { Subscription } from 'rxjs';
 import { Load, PaginationEvent, SearchBooks } from '../store/actions/actions';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-container-book',
@@ -36,22 +37,22 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     queryParams: IBookListStateQuery;
     subscriber: Subscription = new Subscription();
 
-    constructor(private store: Store<any>) {
+    constructor(private store: Store<any>, private router: Router, private route: ActivatedRoute) {
         this.items$ = this.store.select(selectListBooks);
         this.pagination$ = this.store.select(selectListQueryPagination);
         this.filter$ = this.store.select(selectListQueryFilter);
         this.delete$ = this.store.select(selectDelete);
         this.query$ = this.store.select(selectListQuery);
-
         this.subscriber.add(this.query$.subscribe(result => this.queryParams = result));
     }
 
     ngOnInit(): void {
-        this.loadBooks();
-        this.subscriber.add(this.delete$.subscribe(result => {
-            if (result) { this.loadBooks(); }
-            return false;
+        this.subscriber.add(this.route.queryParams.subscribe((result: BookFilter) => {
+            this.store.dispatch(new SearchBooks(result));
         }));
+        this.loadBooks();
+        this.deleteEvent();
+        this.subscriber.add(this.filter$.subscribe(console.log));
     }
 
     loadBooks(): void {
@@ -64,10 +65,17 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     }
 
     onSearch(event: BookFilter): void {
+        this.router.navigate(['/books'], { queryParams: { title: event.title, author: event.author } });
         this.store.dispatch(new SearchBooks(event));
         this.loadBooks();
     }
 
+    deleteEvent() {
+        this.subscriber.add(this.delete$.subscribe(result => {
+            if (result) { this.loadBooks(); }
+            return false;
+        }));
+    }
     ngOnDestroy() {
         this.subscriber.unsubscribe();
     }

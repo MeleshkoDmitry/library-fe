@@ -1,7 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Book } from '../book';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-view-a-book',
@@ -11,13 +9,6 @@ import { Store } from '@ngrx/store';
 })
 
 export class ViewABookComponent {
-  book: Book;
-
-  constructor(private router: Router, private route: ActivatedRoute, private store: Store<any>) {
-    this.book = this.route.snapshot.data.book;
-  }
-
-  viewAllBooks() {
-    this.router.navigate(['/books']);
-  }
+  @Input() book: Book;
+  @Output() moveBack: EventEmitter<any> = new EventEmitter<any>();
 }
