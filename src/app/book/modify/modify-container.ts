@@ -5,10 +5,10 @@ import { BookService } from '../book.service';
 
 @Component({
     selector: 'app-modify-container-book',
-    template: `<app-post-a-book
+    template: `<app-modify-book
          [book]="book"
          (moveBack)="viewBooks()"
-         (save)="modify($event)"></app-post-a-book>`,
+         (save)="modify($event)"></app-modify-book>`,
     styles: [``],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

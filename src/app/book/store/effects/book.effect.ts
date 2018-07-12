@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 import { BookService } from '../../book.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Book } from '../../book';
+import { Book, IBookListItems } from '../../book';
 import {
-    BookActionTypes, LoadSuccess, ViewSuccess, EditSuccess, DeleteSuccess,
-    PaginationEventSuccess,
+    BookActionTypes, LoadBooksSuccess, ViewSuccess, EditSuccess, DeleteSuccess,
 } from '../actions/actions';
 
 interface Action {
@@ -19,9 +18,9 @@ export class BooksEffects {
 
     @Effect()
     load$: Observable<any> = this.actions$.pipe(
-        ofType(BookActionTypes.Load),
+        ofType(BookActionTypes.LoadBooks),
         switchMap((action: Action) => this.bookService.viewListBooks(action.payload).pipe(
-            map((books: Book[]) => new LoadSuccess(books))
+            map((result: IBookListItems) => new LoadBooksSuccess(result))
         ))
     );
 
@@ -47,10 +46,4 @@ export class BooksEffects {
         switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
             map(() => new DeleteSuccess()))
         ));
-
-    @Effect()
-    pagination$: Observable<any> = this.actions$.pipe(
-        ofType(BookActionTypes.PaginationEvent),
-        map((action: Action) => new PaginationEventSuccess(action.payload))
-    );
 }

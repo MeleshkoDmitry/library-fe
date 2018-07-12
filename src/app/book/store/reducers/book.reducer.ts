@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createSelector, ActionReducerMap } from '@ngrx/store';
-import { Book, Pagination, BookFilter } from '../../book';
-import { BookActionTypes } from '../actions/actions';
+import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
+import { BookActionTypes, BooksActionsUnion } from '../actions/actions';
 
 export interface CustomAction extends Action {
     payload: any;
@@ -9,11 +9,11 @@ export interface CustomAction extends Action {
 export interface IBookListStateQuery {
     pagination: Pagination;
     filter: BookFilter;
+    delete: boolean;
 }
 interface IBookListState {
-    items: Book[];
+    items: IBookListItems;
     query: IBookListStateQuery;
-    delete: boolean;
 }
 
 interface ISingleBookState {
@@ -26,54 +26,47 @@ export interface IBooksState {
     edit: ISingleBookState;
 }
 const initialListState: IBookListState = {
-    items: [],
+    items: { books: [], totalRecords: 0 },
     query: {
-        pagination: { page: 1, pageSize: 10, totalRecords: 0 },
+        delete: false,
+        pagination: { page: 1, pageSize: 10 },
         filter: { title: '', author: '' },
-    },
-    delete: false
+    }
 };
 const initialSingleBook: ISingleBookState = {
     book: { _id: null, title: null, author: null }
 };
 
-export function listReducer(state: IBookListState = initialListState, action: CustomAction) {
+export function listReducer(state: IBookListState = initialListState, action: BooksActionsUnion) {
     switch (action.type) {
-        case BookActionTypes.LoadSuccess:
+        case BookActionTypes.LoadBooksSuccess:
             return {
                 ...state,
-                items: action.payload.books,
-                delete: false,
-                query: {
-                    ...state.query,
-                    pagination: {
-                        ...state.query.pagination,
-                        totalRecords: action.payload.totalRecords
-                    },
-                },
+                items: action.payload,
             };
-        case BookActionTypes.PaginationEventSuccess:
+        case BookActionTypes.PaginationAction:
             return {
                 ...state,
                 query: {
                     ...state.query,
-                    pagination: {
-                        ...state.query.pagination,
-                        page: action.payload.page, pageSize: action.payload.pageSize
-                    }
+                    pagination: action.payload
                 }
             };
         case BookActionTypes.SearchBooks:
             return {
                 ...state,
                 query: {
-                    ...state.query, pagination: {
+                    ...state.query,
+                    pagination: {
                         ...state.query.pagination, page: 1
-                    }, filter: action.payload
+                    },
+                    filter: action.payload
                 }
             };
         case BookActionTypes.DeleteSuccess:
-            return { ...state, delete: true };
+            return {
+                ...state,
+            };
         default:
             return state;
     }
@@ -96,24 +89,24 @@ export function editReducer(state: ISingleBookState = initialSingleBook, action:
     }
 }
 
+export const reducers = {
+    list: listReducer,
+    view: viewReducer,
+    edit: editReducer
+};
+
 export const selectFeature = createFeatureSelector<IBooksState>('book');
 
 export const selectList = createSelector(selectFeature, (state: IBooksState) => state.list);
 export const selectListBooks = createSelector(selectList, (state: IBookListState) => state.items);
-export const selectDelete = createSelector(selectList, (state: IBookListState) => state.delete);
 
 export const selectListQuery = createSelector(selectList, (state: IBookListState) => state.query);
 export const selectListQueryPagination = createSelector(selectListQuery, (state: IBookListStateQuery) => state.pagination);
 export const selectListQueryFilter = createSelector(selectListQuery, (state: IBookListStateQuery) => state.filter);
+export const selectListQueryDelete = createSelector(selectListQuery, (state: IBookListStateQuery) => state.delete);
 
 export const selectView = createSelector(selectFeature, (state: IBooksState) => state.view);
 export const selectViewBook = createSelector(selectView, (state: ISingleBookState) => state.book);
 
 export const selectEdit = createSelector(selectFeature, (state: IBooksState) => state.edit);
 export const selectEditBook = createSelector(selectEdit, (state: ISingleBookState) => state.book);
-
-export const reducers = {
-    list: listReducer,
-    view: viewReducer,
-    edit: editReducer
-};

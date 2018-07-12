@@ -17,4 +17,5 @@ export class BookFilter {
 
 export class IBookListItems {
     books: Book[];
+    totalRecords: number;
 }

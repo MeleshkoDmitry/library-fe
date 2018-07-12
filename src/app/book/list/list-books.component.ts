@@ -16,17 +16,14 @@ export class ListBooksComponent {
 
   displayedColumns: string[] = ['No', 'title', 'author', 'edit', 'delete'];
 
-  constructor(private router: Router, private store: Store<any>) {
-  }
+  constructor(private router: Router, private store: Store<any>) { }
 
   viewBook(_id: string): void {
     this.router.navigate(['/books/viewbook/', _id]);
   }
-
   editBook(_id: string): void {
     this.router.navigate(['/books/editbook/', _id]);
   }
-
   deleteBook(_id: string): void {
     this.store.dispatch(new Delete(_id));
   }

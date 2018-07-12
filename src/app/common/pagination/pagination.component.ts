@@ -15,9 +15,6 @@ export class PaginationComponent implements OnChanges {
   @Input() pagination: Pagination;
   @Output() pageEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.pagination.currentValue && !changes.pagination.firstChange) {
       this.createTotalPages();

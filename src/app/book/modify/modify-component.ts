@@ -11,9 +11,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-post-a-book',
-  templateUrl: './post-a-book.component.html',
-  styleUrls: ['./post-a-book.component.css'],
+  selector: 'app-modify-book',
+  templateUrl: './modify-component.html',
+  styleUrls: ['./modify-component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -34,7 +34,6 @@ export class ModifyComponent {
     Validators.maxLength(10)
   ]);
   matcher = new MyErrorStateMatcher();
-  constructor() { }
 }
 
 

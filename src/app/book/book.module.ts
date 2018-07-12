@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookRouting } from './book-routing';
 
-import { ModifyComponent } from './modify/post-a-book.component';
+import { ModifyComponent } from './modify/modify-component';
 import { ViewABookComponent } from './view/view-a-book.component';
 import { ListBooksComponent } from './list/list-books.component';
 import { BooksSearchComponent } from './list/search/books-search.component';
 import { PaginationComponent } from '../common/pagination/pagination.component';
-import { BookContainerComponent } from './list/list.book.container';
+import { BookContainerComponent } from './list/list-book-container';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/reducers/book.reducer';
 import { BooksEffects } from './store/effects/book.effect';
@@ -18,8 +18,8 @@ import {
   MatSelectModule, MatOptionModule, MatTableModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ViewBookContainerComponent } from './view/view.book.container';
-import { ModifyBookContainerComponent } from './modify/modify.container';
+import { ViewBookContainerComponent } from './view/view-book-container';
+import { ModifyBookContainerComponent } from './modify/modify-container';
 
 @NgModule({
   declarations: [

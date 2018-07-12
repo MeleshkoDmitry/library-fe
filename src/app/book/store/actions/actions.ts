@@ -1,29 +1,28 @@
 import { Action } from '@ngrx/store';
 import { IBookListStateQuery } from '../reducers/book.reducer';
-import { Book, Pagination, BookFilter } from '../../book';
+import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
 
 export enum BookActionTypes {
-    Load = '[Books] Load',
-    LoadSuccess = '[Books] Load Success',
+    LoadBooks = '[Books] Load',
+    LoadBooksSuccess = '[Books] Load Success',
     View = '[Books] View',
     ViewSuccess = '[Books] View Success',
     Edit = '[Books] Edit',
     EditSuccess = '[Books] Edit Success',
     Delete = '[Books] Delete',
     DeleteSuccess = '[Books] Delete Success',
-    PaginationEvent = '[Books] Pagination Event',
-    PaginationEventSuccess = '[Books] Pagination Event Success',
+    PaginationAction = '[Books] Pagination Event',
     SearchBooks = '[Books] Search Books'
 }
 
-export class Load implements Action {
-    readonly type: string = BookActionTypes.Load;
+export class LoadBooks implements Action {
+    readonly type: string = BookActionTypes.LoadBooks;
     constructor(public payload: IBookListStateQuery) { }
 }
 
-export class LoadSuccess implements Action {
-    readonly type: string = BookActionTypes.LoadSuccess;
-    constructor(public payload: Book[]) { }
+export class LoadBooksSuccess implements Action {
+    readonly type: string = BookActionTypes.LoadBooksSuccess;
+    constructor(public payload: IBookListItems) { }
 }
 
 export class View implements Action {
@@ -56,13 +55,8 @@ export class DeleteSuccess implements Action {
     constructor() { }
 }
 
-export class PaginationEvent implements Action {
-    readonly type: string = BookActionTypes.PaginationEvent;
-    constructor(public payload: Pagination) { }
-}
-
-export class PaginationEventSuccess implements Action {
-    readonly type: string = BookActionTypes.PaginationEventSuccess;
+export class PaginationAction implements Action {
+    readonly type: string = BookActionTypes.PaginationAction;
     constructor(public payload: Pagination) { }
 }
 
@@ -71,15 +65,13 @@ export class SearchBooks implements Action {
     constructor(public payload: BookFilter) { }
 }
 
-export type CollectionActionsUnion =
-    | Load
-    | LoadSuccess
+export type BooksActionsUnion =
+    | LoadBooks
+    | LoadBooksSuccess
     | View
     | ViewSuccess
     | Edit
     | EditSuccess
     | Delete
-    | DeleteSuccess
-    | PaginationEvent
-    | PaginationEventSuccess
+    | PaginationAction
     | SearchBooks;
