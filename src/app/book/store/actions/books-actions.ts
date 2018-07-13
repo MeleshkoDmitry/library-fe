@@ -5,6 +5,8 @@ import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
 export enum BookActionTypes {
     LoadBooks = '[Books] Load',
     LoadBooksSuccess = '[Books] Load Success',
+    AddBookService = '[Books] Add Service',
+    EditBookService = '[Books] Edit Service',
     View = '[Books] View',
     ViewSuccess = '[Books] View Success',
     Edit = '[Books] Edit',
@@ -23,6 +25,16 @@ export class LoadBooks implements Action {
 export class LoadBooksSuccess implements Action {
     readonly type: string = BookActionTypes.LoadBooksSuccess;
     constructor(public payload: IBookListItems) { }
+}
+
+export class AddBookService implements Action {
+    readonly type: string = BookActionTypes.AddBookService;
+    constructor(public payload: Book) { }
+}
+
+export class EditBookService implements Action {
+    readonly type: string = BookActionTypes.EditBookService;
+    constructor(public payload: Book) { }
 }
 
 export class View implements Action {
@@ -74,4 +86,6 @@ export type BooksActionsUnion =
     | EditSuccess
     | Delete
     | PaginationAction
-    | SearchBooks;
+    | SearchBooks
+    | AddBookService
+    | EditBookService;

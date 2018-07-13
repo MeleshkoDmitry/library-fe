@@ -1,8 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { ViewBookResolver } from './resolvers/view.book.resolver';
+import { EditBookResolver, ViewBookResolver } from './resolvers/book-resolver';
 import { BookContainerComponent } from './list/list-book-container';
-import { EditBookResolver } from './resolvers/edit.book.resolver';
 import { ViewBookContainerComponent } from './view/view-book-container';
 import { ModifyBookContainerComponent } from './modify/modify-container';
 

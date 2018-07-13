@@ -1,6 +1,6 @@
-import { Action, createFeatureSelector, createSelector, ActionReducerMap } from '@ngrx/store';
+import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
-import { BookActionTypes, BooksActionsUnion } from '../actions/actions';
+import { BookActionTypes, BooksActionsUnion } from '../actions/books-actions';
 
 export interface CustomAction extends Action {
     payload: any;
@@ -58,7 +58,8 @@ export function listReducer(state: IBookListState = initialListState, action: Bo
                 query: {
                     ...state.query,
                     pagination: {
-                        ...state.query.pagination, page: 1
+                        ...state.query.pagination,
+                        page: 1
                     },
                     filter: action.payload
                 }

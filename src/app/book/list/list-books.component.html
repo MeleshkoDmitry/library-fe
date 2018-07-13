@@ -10,17 +10,17 @@
 
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef> title </th>
-      <td (click)='viewBook(element._id)' mat-cell *matCellDef="let element"> {{element.title}} </td>
+      <td (click)='moveToView.emit(element._id)' mat-cell *matCellDef="let element"> {{element.title}} </td>
     </ng-container>
 
     <ng-container matColumnDef="author">
       <th mat-header-cell *matHeaderCellDef> author </th>
-      <td (click)='viewBook(element._id)' mat-cell *matCellDef="let element"> {{element.author}} </td>
+      <td (click)='moveToView.emit(element._id)' mat-cell *matCellDef="let element"> {{element.author}} </td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef> edit</th>
-      <td (click)='editBook(element._id)' mat-cell *matCellDef="let element">
+      <td (click)='moveToEdit.emit(element._id)' mat-cell *matCellDef="let element">
         <mat-icon>edit</mat-icon>
       </td>
     </ng-container>

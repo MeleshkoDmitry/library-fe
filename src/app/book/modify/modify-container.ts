@@ -2,36 +2,45 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../book';
 import { BookService } from '../book.service';
+import { Store } from '@ngrx/store';
+import { AddBookService, EditBookService } from '../store/actions/books-actions';
+import { Go } from '../store/actions/navigate-actions';
 
 @Component({
-    selector: 'app-modify-container-book',
-    template: `<app-modify-book
-         [book]="book"
-         (moveBack)="viewBooks()"
-         (save)="modify($event)"></app-modify-book>`,
-    styles: [``],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-modify-container-book',
+  template: `
+    <app-modify-book
+       [book]="book"
+       (moveBack)="viewBooks()"
+       (save)="modify($event)">
+    </app-modify-book>`,
+  styles: [``],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModifyBookContainerComponent {
-    book: Book;
+  book: Book;
+  id: string;
 
-    constructor(private route: ActivatedRoute,
-        private bookService: BookService,
-        private router: Router) {
-        const _id = this.route.snapshot.paramMap.get('id');
-        _id ? this.book = this.route.snapshot.data.book : this.book = new Book();
-    }
+  constructor(private route: ActivatedRoute,
+    private bookService: BookService,
+    private router: Router,
+    private store: Store<Book>) {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.id ? this.book = this.route.snapshot.data.book
+      : this.book = new Book();
+  }
 
-    modify(event: Book): void {
-        let actionService;
-        this.book._id ? actionService = this.bookService.editBook(event._id, event)
-            : actionService = this.bookService.addBook(event);
-        actionService.subscribe((result) => {
-            this.router.navigate(['/books/viewbook/', result._id]);
-        });
-    }
+  modify(event: Book): void {
+    this.book._id ? this.store.dispatch(new EditBookService(event))
+      : this.store.dispatch(new AddBookService(event));
+    this.store.dispatch(new Go({
+      path: ['/books/viewbook/', event._id],
+    }));
+  }
 
-    viewBooks() {
-        this.router.navigate(['/books']);
-    }
+  viewBooks() {
+    this.store.dispatch(new Go({
+      path: ['/books/'],
+    }));
+  }
 }

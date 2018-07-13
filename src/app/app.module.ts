@@ -9,13 +9,24 @@ import { RouterModule } from '@angular/router';
 import { AppRouting } from './app-routing';
 import { CustomErrorHandler } from './error.handler';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { BooksEffects } from './book/store/effects/book-effect';
+import { RouterEffects } from './book/store/effects/navigate-effects';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({
+      router: routerReducer
+    }),
+    EffectsModule.forRoot([BooksEffects, RouterEffects]),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+    }),
+    StoreDevtoolsModule.instrument({}),
     EffectsModule,
     BrowserModule,
     FormsModule,

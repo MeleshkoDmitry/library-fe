@@ -6,7 +6,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Book, IBookListItems } from '../../book';
 import {
     BookActionTypes, LoadBooksSuccess, ViewSuccess, EditSuccess, DeleteSuccess,
-} from '../actions/actions';
+} from '../actions/books-actions';
 
 interface Action {
     type: string; payload?: any; bookFilter?: any;
@@ -45,5 +45,18 @@ export class BooksEffects {
         ofType(BookActionTypes.Delete),
         switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
             map(() => new DeleteSuccess()))
+        ));
+
+    @Effect({ dispatch: false })
+    addService$: Observable<any> = this.actions$.pipe(
+        ofType(BookActionTypes.AddBookService),
+        switchMap((action: Action) => this.bookService.addBook(action.payload).pipe(
+            map((result) => new ViewSuccess(result)))
+        ));
+
+    @Effect({ dispatch: false })
+    editService$: Observable<Book> = this.actions$.pipe(
+        ofType(BookActionTypes.EditBookService),
+        switchMap((action: Action) => this.bookService.editBook(action.payload._id, action.payload)
         ));
 }

@@ -9,9 +9,9 @@ import { ListBooksComponent } from './list/list-books.component';
 import { BooksSearchComponent } from './list/search/books-search.component';
 import { PaginationComponent } from '../common/pagination/pagination.component';
 import { BookContainerComponent } from './list/list-book-container';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, StoreRootModule } from '@ngrx/store';
 import { reducers } from './store/reducers/book.reducer';
-import { BooksEffects } from './store/effects/book.effect';
+import { BooksEffects } from './store/effects/book-effect';
 import { EffectsModule } from '@ngrx/effects';
 import {
   MatButtonModule, MatInputModule, MatIconModule, MatCardModule,
@@ -20,6 +20,7 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewBookContainerComponent } from './view/view-book-container';
 import { ModifyBookContainerComponent } from './modify/modify-container';
+import { RouterEffects } from './store/effects/navigate-effects';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,6 @@ import { ModifyBookContainerComponent } from './modify/modify-container';
   ],
   imports: [
     StoreModule.forFeature('book', reducers),
-    EffectsModule.forRoot([BooksEffects]),
     BookRouting,
     CommonModule,
     FormsModule,
