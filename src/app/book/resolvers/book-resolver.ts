@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Book } from '../book';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectViewBook, selectEditBook } from '../store/reducers/book.reducer';
+import { selectViewBook, selectEditBook } from '../store/reducers/book-reducer';
 import { take, filter } from 'rxjs/operators';
 import { View, Edit } from '../store/actions/books-actions';
 

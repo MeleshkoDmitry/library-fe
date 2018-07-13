@@ -13,10 +13,7 @@ export class ListBooksComponent {
 
   @Input() books: Book[];
 
-  @Output() moveToView: EventEmitter<string> = new EventEmitter<string>();
-  @Output() moveToEdit: EventEmitter<string> = new EventEmitter<string>();
-
-  /*   deleteBook(_id: string): void {
-      this.store.dispatch(new Delete(_id));
-    } */
+  @Output() moveToViewEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() moveToEditEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() deleteEvent: EventEmitter<string> = new EventEmitter<string>();
 }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { EditBookResolver, ViewBookResolver } from './resolvers/book-resolver';
 import { BookContainerComponent } from './list/list-book-container';
 import { ViewBookContainerComponent } from './view/view-book-container';
-import { ModifyBookContainerComponent } from './modify/modify-container';
+import { ModifyBookContainerComponent } from './modify/modify-book-container';
 
 const bookRoutes: Routes = [
   {

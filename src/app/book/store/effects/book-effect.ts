@@ -14,7 +14,7 @@ interface Action {
 
 @Injectable()
 export class BooksEffects {
-    constructor(private bookService: BookService, private actions$: Actions) { }
+    constructor(private actions$: Actions, private bookService: BookService) { }
 
     @Effect()
     load$: Observable<any> = this.actions$.pipe(

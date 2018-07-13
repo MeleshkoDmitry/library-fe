@@ -4,7 +4,7 @@ import { BookFilter, Pagination } from '../book';
 import {
   selectListQueryPagination, selectListBooks,
   selectListQueryFilter, selectListQueryDelete, selectListQuery, IBookListStateQuery
-} from '../store/reducers/book.reducer';
+} from '../store/reducers/book-reducer';
 import { Subscription, ReplaySubject } from 'rxjs';
 import { LoadBooks, PaginationAction, SearchBooks } from '../store/actions/books-actions';
 import { ActivatedRoute } from '@angular/router';
@@ -19,8 +19,9 @@ import { Go } from '../store/actions/navigate-actions';
     </app-books-search>
     <app-list-books
         [books]="(items$ | async).books"
-         (moveToView)="viewBook($event)"
-         (moveToEdit)="editBook($event)">
+         (moveToViewEvent)="viewBook($event)"
+         (moveToEditEvent)="editBook($event)"
+         (deleteEvent)="deleteBook($event)">
     </app-list-books>
     <app-pagination
         [pagination]="(mergedPagination | async)"
@@ -104,6 +105,10 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     this.store.dispatch(new Go({
       path: ['/books/editbook/', event],
     }));
+  }
+
+  deleteBook(event: string): void {
+    console.log(`delete:`, event);
   }
 
   ngOnDestroy() {

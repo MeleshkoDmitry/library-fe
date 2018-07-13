@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { IBookListStateQuery } from '../reducers/book.reducer';
+import { IBookListStateQuery } from '../reducers/book-reducer';
 import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
 
 export enum BookActionTypes {

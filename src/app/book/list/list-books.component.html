@@ -10,24 +10,24 @@
 
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef> title </th>
-      <td (click)='moveToView.emit(element._id)' mat-cell *matCellDef="let element"> {{element.title}} </td>
+      <td (click)='moveToViewEvent.emit(element._id)' mat-cell *matCellDef="let element"> {{element.title}} </td>
     </ng-container>
 
     <ng-container matColumnDef="author">
       <th mat-header-cell *matHeaderCellDef> author </th>
-      <td (click)='moveToView.emit(element._id)' mat-cell *matCellDef="let element"> {{element.author}} </td>
+      <td (click)='moveToViewEvent.emit(element._id)' mat-cell *matCellDef="let element"> {{element.author}} </td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef> edit</th>
-      <td (click)='moveToEdit.emit(element._id)' mat-cell *matCellDef="let element">
+      <td (click)='moveToEditEvent.emit(element._id)' mat-cell *matCellDef="let element">
         <mat-icon>edit</mat-icon>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> delete </th>
-      <td (click)='deleteBook(element._id)' mat-cell *matCellDef="let element">
+      <td (click)='deleteEvent.emit(element._id)' mat-cell *matCellDef="let element">
         <mat-icon>delete</mat-icon>
       </td>
     </ng-container>

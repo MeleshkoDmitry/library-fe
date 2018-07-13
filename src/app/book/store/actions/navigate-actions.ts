@@ -7,6 +7,16 @@ export enum BookActionTypes {
   FORWARD = '[Router] Forward'
 
 }
+
+
+export class Back implements Action {
+  readonly type = BookActionTypes.BACK;
+}
+
+export class Forward implements Action {
+  readonly type = BookActionTypes.FORWARD;
+}
+
 export class Go implements Action {
   readonly type = BookActionTypes.GO;
 
@@ -18,13 +28,4 @@ export class Go implements Action {
     }
   ) { }
 }
-
-export class Back implements Action {
-  readonly type = BookActionTypes.BACK;
-}
-
-export class Forward implements Action {
-  readonly type = BookActionTypes.FORWARD;
-}
-
 export type RouterActionsUnion = Go | Back | Forward;

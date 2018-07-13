@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book, IBookListItems } from './book';
 import { environment } from '../../environments/environment';
-import { IBookListStateQuery } from './store/reducers/book.reducer';
+import { IBookListStateQuery } from './store/reducers/book-reducer';
 
 @Injectable({
   providedIn: 'root'
