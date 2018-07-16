@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectViewBook, selectEditBook } from '../store/reducers/book-reducer';
 import { take, filter } from 'rxjs/operators';
-import { View, Edit } from '../store/actions/books-actions';
+import { View, Edit, Modify, BookActionTypes } from '../store/actions/books-actions';
 
 class BookResolver<T> implements Resolve<T> {
-    constructor(private baseStore: Store<T>, private selector: any, private action: any) {
+    constructor(private baseStore: Store<T>, private selector: any, private action: any, private modifyType: string) {
     }
     resolve(route: ActivatedRouteSnapshot): Observable<T> {
-        this.baseStore.dispatch(new this.action(route.params.id));
+        this.baseStore.dispatch(new this.action(route.params.id, this.modifyType));
         return this.baseStore.select(this.selector)
             .pipe(
                 filter((book: Book) => book._id === route.params.id),
@@ -22,13 +22,13 @@ class BookResolver<T> implements Resolve<T> {
 @Injectable()
 export class ViewBookResolver extends BookResolver<Book> {
     constructor(private store: Store<Book>) {
-        super(store, selectViewBook, View);
+        super(store, selectViewBook, Modify, BookActionTypes.View);
     }
 }
 
 @Injectable()
 export class EditBookResolver extends BookResolver<Book> {
     constructor(private store: Store<Book>) {
-        super(store, selectEditBook, Edit);
+        super(store, selectEditBook, Modify, BookActionTypes.Edit);
     }
 }

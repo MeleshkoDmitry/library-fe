@@ -12,7 +12,7 @@ export class BooksSearchComponent {
   @Input() filter: BookFilter;
   @Output() searchEvent: EventEmitter<any> = new EventEmitter();
 
-  search() {
+  search(): void {
     this.searchEvent.emit({
       title: this.filter.title,
       author: this.filter.author

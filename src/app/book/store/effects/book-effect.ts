@@ -10,7 +10,7 @@ import {
 import { Router } from '../../../../../node_modules/@angular/router';
 
 interface Action {
-    type: string; payload?: any;
+    type: string; payload?: any; modifyType?: string;
 }
 
 @Injectable()
@@ -33,24 +33,18 @@ export class BooksEffects {
         ))
     );
 
+
     @Effect()
-    edit$: Observable<EditSuccess> = this.actions$.pipe(
-        ofType(BookActionTypes.Edit),
+    modify$: Observable<any> = this.actions$.pipe(
+        ofType(BookActionTypes.Modify),
         switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
-            map((book: Book) => new EditSuccess(book)))));
-
-    @Effect()
-    delete$: Observable<DeleteSuccess> = this.actions$.pipe(
-        ofType(BookActionTypes.Delete),
-        switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
-            map(() => new DeleteSuccess()))
-        ));
-
-    @Effect({ dispatch: false })
-    addService$: Observable<any> = this.actions$.pipe(
-        ofType(BookActionTypes.AddBookService),
-        switchMap((action: Action) => this.bookService.addBook(action.payload).pipe(
-            tap((result) => this.router.navigate(['/books/viewbook/', result._id]))
+            map((result) => {
+                if (action.modifyType === BookActionTypes.View) {
+                    return new ViewSuccess(result);
+                } else if (action.modifyType === BookActionTypes.Edit) {
+                    return new EditSuccess(result);
+                }
+            })
         )));
 
     @Effect()
@@ -61,4 +55,11 @@ export class BooksEffects {
                 this.router.navigate(['/books/viewbook/', result._id]);
             }),
             map(result => new ViewSuccess(result)))));
+
+    @Effect({ dispatch: false })
+    addService$: Observable<any> = this.actions$.pipe(
+        ofType(BookActionTypes.AddBookService),
+        switchMap((action: Action) => this.bookService.addBook(action.payload).pipe(
+            tap((result) => this.router.navigate(['/books/viewbook/', result._id]))
+        )));
 }

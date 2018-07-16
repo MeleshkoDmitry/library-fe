@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BookFilter, Pagination } from '../book';
 import {
@@ -53,7 +53,6 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     this.querySearch();
     this.subscriber.add(this.query$.subscribe((result) => this.loadBooks(result)));
     this.generatePagination();
-    this.store.subscribe(console.log).unsubscribe();
   }
 
   loadBooks(querySearch: IBookListStateQuery): void {
