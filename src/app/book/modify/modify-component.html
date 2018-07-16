@@ -20,7 +20,7 @@
         Property's is required
       </mat-error>
     </mat-form-field>
-    <button [disabled]="!titleController.valid || authorController.invalid" mat-raised-button color="primary" (click)='save.emit(book)'
+    <button [disabled]="titleController.invalid || authorController.invalid" mat-raised-button color="primary" (click)='save.emit(book)'
       type="submit">
       <mat-icon>check</mat-icon>
     </button>

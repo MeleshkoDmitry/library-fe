@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, tap } from 'rxjs/operators';
-import { BookActionTypes } from '../actions/navigate-actions';
+import { RouterActionTypes } from '../actions/navigate-actions';
 
 interface Action { payload?: any; }
 
@@ -13,7 +13,7 @@ export class RouterEffects {
 
     @Effect({ dispatch: false })
     navigate$ = this.actions$.pipe(
-        ofType(BookActionTypes.GO),
+        ofType(RouterActionTypes.GO),
         map((action: Action) => action.payload),
         tap(({ path, query: queryParams, extras }) =>
             this.router.navigate(path, { queryParams, ...extras })
@@ -22,13 +22,13 @@ export class RouterEffects {
 
     @Effect({ dispatch: false })
     navigateBack$ = this.actions$.pipe(
-        ofType(BookActionTypes.BACK),
+        ofType(RouterActionTypes.BACK),
         tap(() => this.location.back())
     );
 
     @Effect({ dispatch: false })
     navigateForward$ = this.actions$.pipe(
-        ofType(BookActionTypes.FORWARD),
+        ofType(RouterActionTypes.FORWARD),
         tap(() => this.location.forward())
     );
 }

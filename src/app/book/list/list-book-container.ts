@@ -53,6 +53,7 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     this.querySearch();
     this.subscriber.add(this.query$.subscribe((result) => this.loadBooks(result)));
     this.generatePagination();
+    this.store.subscribe(console.log).unsubscribe();
   }
 
   loadBooks(querySearch: IBookListStateQuery): void {

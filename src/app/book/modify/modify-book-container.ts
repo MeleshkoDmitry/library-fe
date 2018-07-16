@@ -1,11 +1,9 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Book } from '../book';
-import { BookService } from '../book.service';
 import { Store } from '@ngrx/store';
 import { AddBookService, EditBookService } from '../store/actions/books-actions';
 import { Go } from '../store/actions/navigate-actions';
-import { selectViewBook } from '../store/reducers/book-reducer';
 
 @Component({
   selector: 'app-modify-container-book',
@@ -14,7 +12,8 @@ import { selectViewBook } from '../store/reducers/book-reducer';
        [book]="book"
        (moveBack)="viewBooks()"
        (save)="modify($event)">
-    </app-modify-book>`,
+    </app-modify-book>
+    `,
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
