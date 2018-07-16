@@ -9,7 +9,7 @@ import {
 } from '../actions/books-actions';
 
 interface Action {
-    type: string; payload?: any; bookFilter?: any;
+    type: string; payload?: any;
 }
 
 @Injectable()

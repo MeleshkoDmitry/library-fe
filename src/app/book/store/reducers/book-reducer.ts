@@ -2,10 +2,6 @@ import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
 import { BookActionTypes, BooksActionsUnion } from '../actions/books-actions';
 
-export interface CustomAction extends Action {
-    payload: any;
-}
-
 export interface IBookListStateQuery {
     pagination: Pagination;
     filter: BookFilter;
@@ -64,6 +60,14 @@ export function listReducer(state: IBookListState = initialListState, action: Bo
                     filter: action.payload
                 }
             };
+        case BookActionTypes.QuerySearchBooks:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    filter: action.payload
+                }
+            };
         case BookActionTypes.DeleteSuccess:
             return {
                 ...state,
@@ -72,7 +76,8 @@ export function listReducer(state: IBookListState = initialListState, action: Bo
             return state;
     }
 }
-export function viewReducer(state: ISingleBookState = initialSingleBook, action: CustomAction) {
+
+export function viewReducer(state: ISingleBookState = initialSingleBook, action: BooksActionsUnion) {
     switch (action.type) {
         case BookActionTypes.ViewSuccess:
             return { ...state, book: action.payload };
@@ -81,7 +86,7 @@ export function viewReducer(state: ISingleBookState = initialSingleBook, action:
     }
 }
 
-export function editReducer(state: ISingleBookState = initialSingleBook, action: CustomAction) {
+export function editReducer(state: ISingleBookState = initialSingleBook, action: BooksActionsUnion) {
     switch (action.type) {
         case BookActionTypes.EditSuccess:
             return { ...state, book: action.payload };

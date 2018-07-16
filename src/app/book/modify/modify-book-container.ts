@@ -32,9 +32,6 @@ export class ModifyBookContainerComponent {
   modify(event: Book): void {
     this.book._id ? this.store.dispatch(new EditBookService(event))
       : this.store.dispatch(new AddBookService(event));
-    this.store.dispatch(new Go({
-      path: ['/books/viewbook/', event._id],
-    }));
   }
 
   viewBooks() {

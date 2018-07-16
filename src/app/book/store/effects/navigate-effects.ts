@@ -4,7 +4,8 @@ import { Location } from '@angular/common';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, tap } from 'rxjs/operators';
 import { BookActionTypes } from '../actions/navigate-actions';
-import { CustomAction } from '../reducers/book-reducer';
+
+interface Action { payload?: any; }
 
 @Injectable()
 export class RouterEffects {
@@ -13,7 +14,7 @@ export class RouterEffects {
     @Effect({ dispatch: false })
     navigate$ = this.actions$.pipe(
         ofType(BookActionTypes.GO),
-        map((action: CustomAction) => action.payload),
+        map((action: Action) => action.payload),
         tap(({ path, query: queryParams, extras }) =>
             this.router.navigate(path, { queryParams, ...extras })
         )

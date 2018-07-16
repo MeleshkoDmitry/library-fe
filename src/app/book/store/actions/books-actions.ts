@@ -14,7 +14,8 @@ export enum BookActionTypes {
     Delete = '[Books] Delete',
     DeleteSuccess = '[Books] Delete Success',
     PaginationAction = '[Books] Pagination Event',
-    SearchBooks = '[Books] Search Books'
+    SearchBooks = '[Books] Search Books',
+    QuerySearchBooks = '[Books] Query Search Books'
 }
 
 export class LoadBooks implements Action {
@@ -77,6 +78,11 @@ export class SearchBooks implements Action {
     constructor(public payload: BookFilter) { }
 }
 
+export class QuerySearchBooks implements Action {
+    readonly type: string = BookActionTypes.QuerySearchBooks;
+    constructor(public payload: BookFilter) { }
+}
+
 export type BooksActionsUnion =
     | LoadBooks
     | LoadBooksSuccess
@@ -88,4 +94,5 @@ export type BooksActionsUnion =
     | PaginationAction
     | SearchBooks
     | AddBookService
-    | EditBookService;
+    | EditBookService
+    | QuerySearchBooks;

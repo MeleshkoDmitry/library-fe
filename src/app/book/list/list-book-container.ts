@@ -6,7 +6,7 @@ import {
   selectListQueryFilter, selectListQueryDelete, selectListQuery, IBookListStateQuery
 } from '../store/reducers/book-reducer';
 import { Subscription, ReplaySubject } from 'rxjs';
-import { LoadBooks, PaginationAction, SearchBooks } from '../store/actions/books-actions';
+import { LoadBooks, PaginationAction, SearchBooks, QuerySearchBooks } from '../store/actions/books-actions';
 import { ActivatedRoute } from '@angular/router';
 import { Go } from '../store/actions/navigate-actions';
 
@@ -50,16 +50,16 @@ export class BookContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.querySearch(); // TODO: no need updated number page after navigation
+    this.querySearch();
     this.subscriber.add(this.query$.subscribe((result) => this.loadBooks(result)));
     this.generatePagination();
   }
 
-  loadBooks(querySearch: IBookListStateQuery) {
+  loadBooks(querySearch: IBookListStateQuery): void {
     this.store.dispatch(new LoadBooks(querySearch));
   }
 
-  pageChange(event: Pagination) {
+  pageChange(event: Pagination): void {
     this.store.dispatch(new PaginationAction(event));
   }
 
@@ -67,15 +67,15 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SearchBooks(event));
   }
 
-  querySearch() {
+  querySearch(): void {
     const queryParams: BookFilter = {
       title: this.route.snapshot.queryParams.title || '',
       author: this.route.snapshot.queryParams.author || ''
     };
-    this.store.dispatch(new SearchBooks(queryParams));
+    this.store.dispatch(new QuerySearchBooks(queryParams));
   }
 
-  generatePagination() {
+  generatePagination(): void {
     this.mergedPagination = new ReplaySubject();
 
     let pagination;
@@ -108,10 +108,10 @@ export class BookContainerComponent implements OnInit, OnDestroy {
   }
 
   deleteBook(event: string): void {
-    console.log(`delete:`, event);
+    console.log(`deleted id::`, event);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriber.unsubscribe();
   }
 }
