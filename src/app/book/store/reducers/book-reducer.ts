@@ -6,6 +6,7 @@ export interface IBookListStateQuery {
     pagination: Pagination;
     filter: BookFilter;
     delete: boolean;
+    firstLoad: boolean;
 }
 interface IBookListState {
     items: IBookListItems;
@@ -25,6 +26,7 @@ const initialListState: IBookListState = {
     items: { books: [], totalRecords: 0 },
     query: {
         delete: false,
+        firstLoad: true,
         pagination: { page: 1, pageSize: 10 },
         filter: { title: '', author: '' },
     }
@@ -65,7 +67,8 @@ export function listReducer(state: IBookListState = initialListState, action: Bo
                 ...state,
                 query: {
                     ...state.query,
-                    filter: action.payload
+                    filter: action.payload,
+                    firstLoad: false
                 }
             };
         case BookActionTypes.DeleteSuccess:

@@ -14,7 +14,7 @@ import { Go } from '../store/actions/navigate-actions';
   selector: 'app-container-book',
   template: `
     <app-books-search
-        [filter]="(filter$ | async)"
+        [filter]="filter$ | async"
         (searchEvent)="onSearch($event)">
     </app-books-search>
     <app-list-books
@@ -24,7 +24,7 @@ import { Go } from '../store/actions/navigate-actions';
          (deleteEvent)="deleteBook($event)">
     </app-list-books>
     <app-pagination
-        [pagination]="(mergedPagination | async)"
+        [pagination]="mergedPagination | async"
         (pageEvent)="pageChange($event)">
     </app-pagination>
     `,
@@ -50,8 +50,10 @@ export class BookContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.querySearch();
-    this.subscriber.add(this.query$.subscribe((result) => this.loadBooks(result)));
+    this.subscriber.add(this.query$.subscribe((result) => {
+      result.firstLoad ? this.querySearch() :
+        this.loadBooks(result);
+    }));
     this.generatePagination();
   }
 
