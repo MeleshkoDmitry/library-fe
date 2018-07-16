@@ -7,7 +7,7 @@ export enum BookActionTypes {
     LoadBooksSuccess = '[Books] Load Success',
     AddBookService = '[Books] Add Service',
     EditBookService = '[Books] Edit Service',
-    Modify = '[Books] Modify',
+    SingleLoad = '[Books] Modify',
     View = '[Books] View',
     ViewSuccess = '[Books] View Success',
     Edit = '[Books] Edit',
@@ -54,9 +54,9 @@ export class Edit implements Action {
     constructor(public payload: string) { }
 }
 
-export class Modify implements Action {
-    readonly type: string = BookActionTypes.Modify;
-    constructor(public payload: string, public modifyType: string) { }
+export class SingleLoad implements Action {
+    readonly type: string = BookActionTypes.SingleLoad;
+    constructor(public payload: string, public nextActionType: any) { }
 }
 
 export class EditSuccess implements Action {
@@ -92,7 +92,7 @@ export class QuerySearchBooks implements Action {
 export type BooksActionsUnion =
     | LoadBooks
     | LoadBooksSuccess
-    | Modify
+    | SingleLoad
     | View
     | ViewSuccess
     | Edit

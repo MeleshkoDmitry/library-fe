@@ -5,12 +5,12 @@ import { BookActionTypes, BooksActionsUnion } from '../actions/books-actions';
 export interface IBookListStateQuery {
     pagination: Pagination;
     filter: BookFilter;
-    delete: boolean;
     firstLoad: boolean;
 }
 interface IBookListState {
     items: IBookListItems;
     query: IBookListStateQuery;
+    delete: boolean;
 }
 
 interface ISingleBookState {
@@ -25,11 +25,11 @@ export interface IBooksState {
 const initialListState: IBookListState = {
     items: { books: [], totalRecords: 0 },
     query: {
-        delete: false,
         firstLoad: true,
         pagination: { page: 1, pageSize: 10 },
         filter: { title: '', author: '' },
-    }
+    },
+    delete: false,
 };
 const initialSingleBook: ISingleBookState = {
     book: { _id: null, title: null, author: null }
@@ -41,6 +41,7 @@ export function listReducer(state: IBookListState = initialListState, action: Bo
             return {
                 ...state,
                 items: action.payload,
+                delete: false,
             };
         case BookActionTypes.PaginationAction:
             return {
@@ -74,6 +75,7 @@ export function listReducer(state: IBookListState = initialListState, action: Bo
         case BookActionTypes.DeleteSuccess:
             return {
                 ...state,
+                delete: true
             };
         default:
             return state;
@@ -108,11 +110,11 @@ export const selectFeature = createFeatureSelector<IBooksState>('book');
 
 export const selectList = createSelector(selectFeature, (state: IBooksState) => state.list);
 export const selectListBooks = createSelector(selectList, (state: IBookListState) => state.items);
+export const selectListDelete = createSelector(selectList, (state: IBookListState) => state.delete);
 
 export const selectListQuery = createSelector(selectList, (state: IBookListState) => state.query);
 export const selectListQueryPagination = createSelector(selectListQuery, (state: IBookListStateQuery) => state.pagination);
 export const selectListQueryFilter = createSelector(selectListQuery, (state: IBookListStateQuery) => state.filter);
-export const selectListQueryDelete = createSelector(selectListQuery, (state: IBookListStateQuery) => state.delete);
 
 export const selectView = createSelector(selectFeature, (state: IBooksState) => state.view);
 export const selectViewBook = createSelector(selectView, (state: ISingleBookState) => state.book);

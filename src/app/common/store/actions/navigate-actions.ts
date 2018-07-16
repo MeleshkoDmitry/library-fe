@@ -23,7 +23,7 @@ export class Go implements Action {
   constructor(
     public payload: {
       path: any[];
-      query?: object;
+      query?: string;
       extras?: NavigationExtras;
     }
   ) { }

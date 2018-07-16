@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectViewBook, selectEditBook } from '../store/reducers/book-reducer';
 import { take, filter } from 'rxjs/operators';
-import { View, Edit, Modify, BookActionTypes } from '../store/actions/books-actions';
+import { SingleLoad, ViewSuccess, EditSuccess } from '../store/actions/books-actions';
 
 class BookResolver<T> implements Resolve<T> {
-    constructor(private baseStore: Store<T>, private selector: any, private action: any, private modifyType: string) {
+    constructor(public store: Store<T>, private selector: any, private action: any, private nextActionType: any) {
     }
     resolve(route: ActivatedRouteSnapshot): Observable<T> {
-        this.baseStore.dispatch(new this.action(route.params.id, this.modifyType));
-        return this.baseStore.select(this.selector)
+        this.store.dispatch(new this.action(route.params.id, this.nextActionType));
+        return this.store.select(this.selector)
             .pipe(
                 filter((book: Book) => book._id === route.params.id),
                 take(1));
@@ -21,14 +21,14 @@ class BookResolver<T> implements Resolve<T> {
 
 @Injectable()
 export class ViewBookResolver extends BookResolver<Book> {
-    constructor(private store: Store<Book>) {
-        super(store, selectViewBook, Modify, BookActionTypes.View);
+    constructor(store: Store<Book>) {
+        super(store, selectViewBook, SingleLoad, ViewSuccess);
     }
 }
 
 @Injectable()
 export class EditBookResolver extends BookResolver<Book> {
-    constructor(private store: Store<Book>) {
-        super(store, selectEditBook, Modify, BookActionTypes.Edit);
+    constructor(store: Store<Book>) {
+        super(store, selectEditBook, SingleLoad, EditSuccess);
     }
 }

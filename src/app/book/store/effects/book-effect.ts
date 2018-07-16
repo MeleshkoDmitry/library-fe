@@ -3,14 +3,14 @@ import { Observable } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { BookService } from '../../book.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Book, IBookListItems } from '../../book';
+import { IBookListItems } from '../../book';
 import {
-    BookActionTypes, LoadBooksSuccess, ViewSuccess, EditSuccess, DeleteSuccess,
+    BookActionTypes, LoadBooksSuccess, ViewSuccess, DeleteSuccess,
 } from '../actions/books-actions';
-import { Router } from '../../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 interface Action {
-    type: string; payload?: any; modifyType?: string;
+    type: string; payload?: any; nextActionType?: any;
 }
 
 @Injectable()
@@ -26,33 +26,24 @@ export class BooksEffects {
     );
 
     @Effect()
-    view$: Observable<ViewSuccess> = this.actions$.pipe(
-        ofType(BookActionTypes.View),
+    singleLoad$: Observable<any> = this.actions$.pipe(
+        ofType(BookActionTypes.SingleLoad),
         switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
-            map((book: Book) => new ViewSuccess(book))
-        ))
-    );
-
+            map((result) => new action.nextActionType(result)))));
 
     @Effect()
-    modify$: Observable<any> = this.actions$.pipe(
-        ofType(BookActionTypes.Modify),
-        switchMap((action: Action) => this.bookService.viewBook(action.payload).pipe(
-            map((result) => {
-                if (action.modifyType === BookActionTypes.View) {
-                    return new ViewSuccess(result);
-                } else if (action.modifyType === BookActionTypes.Edit) {
-                    return new EditSuccess(result);
-                }
-            })
-        )));
+    delete$: Observable<DeleteSuccess> = this.actions$.pipe(
+        ofType(BookActionTypes.Delete),
+        switchMap((action: Action) => this.bookService.deleteBook(action.payload).pipe(
+            map(() => new DeleteSuccess()))
+        ));
 
     @Effect()
     editService$: Observable<any> = this.actions$.pipe(
         ofType(BookActionTypes.EditBookService),
         switchMap((action: Action) => this.bookService.editBook(action.payload._id, action.payload).pipe(
             tap((result) => {
-                this.router.navigate(['/books/viewbook/', result._id]);
+                this.router.navigate(['/books/viewbook/', result._id], { skipLocationChange: true });
             }),
             map(result => new ViewSuccess(result)))));
 
@@ -60,6 +51,6 @@ export class BooksEffects {
     addService$: Observable<any> = this.actions$.pipe(
         ofType(BookActionTypes.AddBookService),
         switchMap((action: Action) => this.bookService.addBook(action.payload).pipe(
-            tap((result) => this.router.navigate(['/books/viewbook/', result._id]))
+            tap((result) => this.router.navigate(['/books/viewbook/', result._id], { skipLocationChange: true }))
         )));
 }

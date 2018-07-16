@@ -1,22 +1,24 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Book } from '../book';
+import { Store } from '@ngrx/store';
+import { Back } from '../../common/store/actions/navigate-actions';
 
 @Component({
     selector: 'app-view-container-book',
     template: `<app-view-a-book
     [book]="book"
     (moveBack)="viewBooks()"></app-view-a-book>`,
-    styles: [``],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewBookContainerComponent {
     book: Book;
-    constructor(private route: ActivatedRoute, private router: Router) {
+    constructor(private route: ActivatedRoute,
+        private store: Store<any>) {
         this.book = this.route.snapshot.data.book;
     }
 
     viewBooks() {
-        this.router.navigate(['/books']);
+        this.store.dispatch(new Back);
     }
 }

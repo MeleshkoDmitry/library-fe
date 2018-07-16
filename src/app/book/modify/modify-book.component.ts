@@ -12,8 +12,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: 'app-modify-book',
-  templateUrl: './modify-component.html',
-  styleUrls: ['./modify-component.css'],
+  templateUrl: './modify-book.component.html',
+  styleUrls: ['./modify-book.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

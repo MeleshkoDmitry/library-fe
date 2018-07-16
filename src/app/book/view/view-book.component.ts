@@ -3,8 +3,8 @@ import { Book } from '../book';
 
 @Component({
   selector: 'app-view-a-book',
-  templateUrl: './view-a-book.component.html',
-  styleUrls: ['./view-a-book.component.css'],
+  templateUrl: './view-book.component.html',
+  styleUrls: ['./view-book.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

@@ -12,7 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { BooksEffects } from './book/store/effects/book-effect';
-import { RouterEffects } from './book/store/effects/navigate-effects';
+import { RouterEffects } from './common/store/effects/navigate-effects';
 
 @NgModule({
   declarations: [

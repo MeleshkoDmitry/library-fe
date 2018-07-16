@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../book';
 import { Store } from '@ngrx/store';
 import { AddBookService, EditBookService } from '../store/actions/books-actions';
-import { Go } from '../store/actions/navigate-actions';
+import { Back } from '../../common/store/actions/navigate-actions';
 
 @Component({
   selector: 'app-modify-container-book',
@@ -14,18 +14,14 @@ import { Go } from '../store/actions/navigate-actions';
        (save)="modify($event)">
     </app-modify-book>
     `,
-  styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModifyBookContainerComponent {
   book: Book;
-  id: string;
 
   constructor(private route: ActivatedRoute,
     private store: Store<Book>) {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.id ? this.book = this.route.snapshot.data.book
-      : this.book = new Book();
+    this.book = this.route.snapshot.data.book || new Book();
   }
 
   modify(event: Book): void {
@@ -33,9 +29,7 @@ export class ModifyBookContainerComponent {
       : this.store.dispatch(new AddBookService(event));
   }
 
-  viewBooks() {
-    this.store.dispatch(new Go({
-      path: ['/books/'],
-    }));
+  viewBooks(): void {
+    this.store.dispatch(new Back);
   }
 }
