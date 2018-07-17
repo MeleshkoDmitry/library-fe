@@ -10,5 +10,6 @@ import { Book } from '../book';
 
 export class ViewABookComponent {
   @Input() book: Book;
+
   @Output() moveBack: EventEmitter<any> = new EventEmitter<any>();
 }

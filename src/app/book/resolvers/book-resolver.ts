@@ -15,7 +15,8 @@ class BookResolver<T> implements Resolve<T> {
         return this.store.select(this.selector)
             .pipe(
                 filter((book: Book) => book._id === route.params.id),
-                take(1));
+                take(1)
+            );
     }
 }
 

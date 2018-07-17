@@ -10,7 +10,7 @@ import { Back } from '../../common/store/actions/navigate-actions';
   template: `
     <app-modify-book
        [book]="book"
-       (moveBack)="viewBooks()"
+       (moveBack)="moveBack()"
        (save)="modify($event)">
     </app-modify-book>
     `,
@@ -20,7 +20,7 @@ export class ModifyBookContainerComponent {
   book: Book;
 
   constructor(private route: ActivatedRoute,
-    private store: Store<Book>) {
+              private store: Store<Book>) {
     this.book = this.route.snapshot.data.book || new Book();
   }
 
@@ -29,7 +29,7 @@ export class ModifyBookContainerComponent {
       : this.store.dispatch(new AddBookService(event));
   }
 
-  viewBooks(): void {
+  moveBack(): void {
     this.store.dispatch(new Back);
   }
 }

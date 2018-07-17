@@ -1,27 +1,7 @@
-import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Book, Pagination, BookFilter, IBookListItems } from '../../book';
 import { BookActionTypes, BooksActionsUnion } from '../actions/books-actions';
 
-export interface IBookListStateQuery {
-    pagination: Pagination;
-    filter: BookFilter;
-    firstLoad: boolean;
-}
-interface IBookListState {
-    items: IBookListItems;
-    query: IBookListStateQuery;
-    delete: boolean;
-}
-
-interface ISingleBookState {
-    book: Book;
-}
-
-export interface IBooksState {
-    list: IBookListState;
-    view: ISingleBookState;
-    edit: ISingleBookState;
-}
 const initialListState: IBookListState = {
     items: { books: [], totalRecords: 0 },
     query: {
@@ -121,3 +101,25 @@ export const selectViewBook = createSelector(selectView, (state: ISingleBookStat
 
 export const selectEdit = createSelector(selectFeature, (state: IBooksState) => state.edit);
 export const selectEditBook = createSelector(selectEdit, (state: ISingleBookState) => state.book);
+
+export interface IBookListStateQuery {
+    pagination: Pagination;
+    filter: BookFilter;
+    firstLoad: boolean;
+}
+
+interface IBookListState {
+    items: IBookListItems;
+    query: IBookListStateQuery;
+    delete: boolean;
+}
+
+interface ISingleBookState {
+    book: Book;
+}
+
+export interface IBooksState {
+    list: IBookListState;
+    view: ISingleBookState;
+    edit: ISingleBookState;
+}

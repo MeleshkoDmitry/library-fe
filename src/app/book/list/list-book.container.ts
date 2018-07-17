@@ -42,7 +42,7 @@ export class BookContainerComponent implements OnInit, OnDestroy {
   subscriber: Subscription = new Subscription();
 
   constructor(private store: Store<any>,
-    private route: ActivatedRoute) {
+              private route: ActivatedRoute) {
     this.items$ = this.store.select(selectListBooks);
     this.pagination$ = this.store.select(selectListQueryPagination);
     this.filter$ = this.store.select(selectListQueryFilter);
@@ -54,8 +54,8 @@ export class BookContainerComponent implements OnInit, OnDestroy {
     this.subscriber.add(this.query$.subscribe((result: IBookListStateQuery) => {
       result.firstLoad ? this.querySearch() :
         this.loadBooks(result);
-      this.delete$.subscribe(delResult => {
-        if (delResult) { this.loadBooks(result); }
+      this.delete$.subscribe(deleteResult => {
+        if (deleteResult) { this.loadBooks(result); }
       });
     }));
     this.generatePagination();

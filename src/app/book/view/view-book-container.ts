@@ -5,20 +5,22 @@ import { Store } from '@ngrx/store';
 import { Back } from '../../common/store/actions/navigate-actions';
 
 @Component({
-    selector: 'app-view-container-book',
-    template: `<app-view-a-book
-    [book]="book"
-    (moveBack)="viewBooks()"></app-view-a-book>`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-view-container-book',
+  template: `
+      <app-view-a-book
+          [book]="book"
+          (moveBack)="moveBack()">
+      </app-view-a-book>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewBookContainerComponent {
-    book: Book;
-    constructor(private route: ActivatedRoute,
-        private store: Store<any>) {
-        this.book = this.route.snapshot.data.book;
-    }
+  book: Book;
+  constructor(private route: ActivatedRoute,
+              private store: Store<any>) {
+    this.book = this.route.snapshot.data.book;
+  }
 
-    viewBooks() {
-        this.store.dispatch(new Back);
-    }
+  moveBack() {
+    this.store.dispatch(new Back);
+  }
 }

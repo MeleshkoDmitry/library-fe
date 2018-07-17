@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { BookModule } from './book/book.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { AppRouting } from './app-routing';
+import { AppRouting } from './app.routing';
 import { CustomErrorHandler } from './error.handler';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
