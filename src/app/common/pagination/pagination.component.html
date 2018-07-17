@@ -1,21 +1,27 @@
 <div class="paginator">
   <mat-card class="card">
-    <label>Items per page:</label>
-    <mat-select class="content" placeholder="Items per page" name="pageSize" [(ngModel)]="pagination.pageSize">
-      <mat-option *ngFor="let pageSize of selectPageSize" [value]="pageSize" (click)="changeValue()">
-        {{pageSize}}
-      </mat-option>
-    </mat-select>
-    <button mat-icon-button color="primary" [disabled]="pagination.page === 1" (click)="prev()">
-      <mat-icon>
-        arrow_back_ios
-      </mat-icon>
-    </button>
-    <label>{{pagination.page}} of {{totalPages}} </label>
-    <button mat-icon-button color="primary" [disabled]="pagination.page === totalPages " (click)="next()">
-      <mat-icon>
-        arrow_forward_ios
-      </mat-icon>
-    </button>
+    <div>
+      <label>Items per page:</label>
+      <div id="select-content">
+        <mat-select placeholder="Items per page" name="pageSize" [(ngModel)]="pagination.pageSize">
+          <mat-option *ngFor="let pageSize of selectPageSize" [value]="pageSize" (click)="changeValue()">
+            {{pageSize}}
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+    <div class="btn-pagination">
+      <button mat-icon-button color="primary" [disabled]="pagination.page === 1" (click)="onPrev()">
+        <mat-icon>
+          arrow_back_ios
+        </mat-icon>
+      </button>
+      <button mat-icon-button color="primary" *ngFor="let pageNumber of getPages()" (click)="onPage(pageNumber)">{{pageNumber}}</button>
+      <button mat-icon-button color="primary" [disabled]="pagination.page === totalPages() " (click)="onNext()">
+        <mat-icon>
+          arrow_forward_ios
+        </mat-icon>
+      </button>
+    </div>
   </mat-card>
 </div>

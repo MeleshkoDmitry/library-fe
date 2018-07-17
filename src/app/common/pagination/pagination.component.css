@@ -4,11 +4,17 @@
     margin: 1%;
 }
 
-.card {
-    width: max-content;
+.btn-pagination{
+    display: flex;
+    justify-content: center;
 }
-
-.content{
-    width: 40px;
-    height: 20px;
+.card {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+#select-content  {
+    width: 50px;
+    margin: 0 auto;
 }
